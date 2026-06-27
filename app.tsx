@@ -1,8 +1,8 @@
 const ROOT_STYLE: any = {
-  "--primary": "217 91% 60%",
+  "--primary": "27 65% 47%",
   "--primary-foreground": "0 0% 100%",
-  "--ring": "217 91% 60%",
-  "--radius": "1rem",
+  "--ring": "27 65% 47%",
+  "--radius": "0.625rem",
 };
 
 export default function MyApp(props: any) {
@@ -334,10 +334,24 @@ function parseFilename(name: string): { card: string; month: number; year: numbe
   return { card, month: monthInt, year };
 }
 
-const CAT_COLOR: Record<string, string> = { "Mercado": "hsl(160 84% 39%)", "Eletrônicos": "hsl(217 91% 60%)", "E-commerce": "hsl(38 92% 50%)", "Viagem": "hsl(262 83% 58%)", "Farmácia/Saúde": "hsl(0 84% 60%)", "Restaurantes/Bares": "hsl(15 90% 55%)", "Assinaturas": "hsl(180 65% 45%)", "Vestuário": "hsl(330 81% 60%)", "Filhos": "hsl(280 70% 60%)", "Seguros": "hsl(220 13% 50%)", "Combustível": "hsl(45 95% 55%)", "Tarifas/IOF": "hsl(220 9% 60%)", "Casa/Serviços": "hsl(173 80% 40%)", "Pet": "hsl(85 65% 45%)", "Transporte": "hsl(220 90% 55%)", "Outros": "hsl(220 10% 70%)" };
+// ============== Paleta "Banco Sóbrio" ==============
+// Tons terrosos/sóbrios: navy, verde, terracota, azul-aço, ardósia, areia.
+const SB = {
+  bg: "#f4f5f2", side: "#1c2b46", ink: "#1c2b46", accent: "#c8702a",
+  green: "#2e7d52", red: "#b03a30", border: "#e3e2dc", bInner: "#eceadf",
+  row: "#f1f0e9", headBg: "#fafaf7", muted: "#8a8678", faint: "#a8a496",
+  chip: "#6b6757", navIdle: "#a6b1c6", navMute: "#8a97b0", sect: "#5e6c87",
+};
 
-// Paleta cíclica para categorias bancárias / dinâmicas sem cor fixa
-const PALETTE = ["hsl(217 91% 60%)", "hsl(160 84% 39%)", "hsl(38 92% 50%)", "hsl(0 84% 60%)", "hsl(262 83% 58%)", "hsl(330 81% 60%)", "hsl(15 90% 55%)", "hsl(180 65% 45%)", "hsl(280 70% 60%)", "hsl(45 95% 55%)", "hsl(85 65% 45%)", "hsl(199 89% 48%)", "hsl(340 75% 55%)", "hsl(142 71% 45%)", "hsl(25 95% 53%)"];
+const CAT_COLOR: Record<string, string> = {
+  "Mercado": "#2e7d52", "Eletrônicos": "#9a8c6a", "E-commerce": "#b8b09a", "Viagem": "#3a5a8c",
+  "Farmácia/Saúde": "#b03a30", "Restaurantes/Bares": "#c8702a", "Assinaturas": "#5b7a99",
+  "Vestuário": "#8a5a8c", "Filhos": "#7a6a8c", "Seguros": "#6b6757", "Combustível": "#a8743a",
+  "Tarifas/IOF": "#9a9483", "Casa/Serviços": "#4a6b8a", "Pet": "#6b8e5a", "Transporte": "#3a5a8c", "Outros": "#1c2b46",
+};
+
+// Paleta cíclica sóbria para categorias dinâmicas sem cor fixa
+const PALETTE = ["#1c2b46", "#2e7d52", "#c8702a", "#3a5a8c", "#8a5a8c", "#9a8c6a", "#b03a30", "#5b7a99", "#6b8e5a", "#a8743a", "#7a6a8c", "#b8b09a", "#4a6b8a", "#857c5e", "#9c5a4a"];
 function catColor(cat: string, idx: number = 0): string {
   if (CAT_COLOR[cat]) return CAT_COLOR[cat];
   let h = 0;
@@ -345,64 +359,76 @@ function catColor(cat: string, idx: number = 0): string {
   return PALETTE[(h + idx) % PALETTE.length];
 }
 
-// CSS global do app: variáveis de tema + animação sutil de entrada
+// CSS global do app: tema "Banco Sóbrio" + tipografia (Newsreader/IBM Plex)
 const APP_CSS = `
-:root { --primary: 217 91% 60%; --primary-foreground: 0 0% 100%; --ring: 217 91% 60%; --radius: 1rem; }
-@keyframes finFadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
-.fin-fade { animation: finFadeIn .3s ease-out both; }
-.fin-card-hover { transition: box-shadow .2s ease, border-color .2s ease; }
-.fin-no-scrollbar::-webkit-scrollbar { display: none; }
-.fin-no-scrollbar { scrollbar-width: none; -ms-overflow-style: none; }
+:root{
+  --background:70 12% 95%; --foreground:219 43% 19%;
+  --card:0 0% 100%; --card-foreground:219 43% 19%;
+  --popover:0 0% 100%; --popover-foreground:219 43% 19%;
+  --primary:27 65% 47%; --primary-foreground:0 0% 100%;
+  --secondary:60 20% 97%; --secondary-foreground:219 43% 19%;
+  --muted:60 20% 97%; --muted-foreground:47 8% 51%;
+  --accent:60 20% 97%; --accent-foreground:219 43% 19%;
+  --destructive:5 57% 44%; --destructive-foreground:0 0% 100%;
+  --border:51 11% 88%; --input:50 13% 82%; --ring:27 65% 47%;
+  --radius:0.625rem;
+}
+@keyframes finFadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+.fin-fade{animation:finFadeIn .25s ease-out both}
+.fin-app{font-family:'IBM Plex Sans',system-ui,sans-serif}
+.fin-app .font-mono{font-family:'IBM Plex Mono',ui-monospace,monospace}
+.fin-serif{font-family:'Newsreader',Georgia,serif}
+.sbgroup{display:grid;background:#fff;border:1px solid #e3e2dc;border-radius:10px;overflow:hidden}
+.sbcell{padding:20px 24px;border-right:1px solid #eceadf;border-bottom:1px solid #eceadf}
+.fin-chip:hover{background:#faf9f5;color:#1c2b46}
+.fin-nav:hover{filter:brightness(1.14)}
+.fin-no-scrollbar::-webkit-scrollbar{display:none}
+.fin-no-scrollbar{scrollbar-width:none}
 `;
 
-// Navegação principal — barra lateral (substitui BeaUI.Tabs)
+// Navegação principal — barra lateral escura (substitui BeaUI.Tabs)
 const NAV = [
-  { value: "overview", label: "Visão Geral", icon: "layout-dashboard" },
-  { value: "expenses", label: "Despesas", icon: "banknote" },
-  { value: "trends", label: "Evolução", icon: "trending-up" },
-  { value: "insights", label: "Insights", icon: "lightbulb" },
-  { value: "budgets", label: "Orçamento", icon: "target" },
-  { value: "cards", label: "Cartões", icon: "credit-card" },
-  { value: "bank", label: "Conta Corrente", icon: "building-2" },
+  { value: "overview", label: "Visão Geral", icon: "layout-grid", sub: "Acompanhe gastos, renda e orçamento" },
+  { value: "expenses", label: "Despesas", icon: "banknote", sub: "Todas as saídas, classificadas por categoria" },
+  { value: "trends", label: "Evolução", icon: "trending-up", sub: "Gastos e patrimônio ao longo do tempo" },
+  { value: "insights", label: "Insights", icon: "lightbulb", sub: "Observações automáticas sobre seus hábitos" },
+  { value: "budgets", label: "Orçamento", icon: "target", sub: "Defina limites por categoria e acompanhe o consumo" },
+  { value: "cards", label: "Cartões", icon: "credit-card", sub: "Faturas e gastos dos seus cartões de crédito" },
+  { value: "bank", label: "Conta Corrente", icon: "landmark", sub: "Movimentações de entrada e saída da conta" },
 ];
 
-// Mapa de acentos sóbrios (badge de ícone + texto de destaque) — usado nos StatCards
-const ACCENT: Record<string, { iconBg: string; iconText: string; text: string }> = {
-  primary: { iconBg: "bg-primary/10", iconText: "text-primary", text: "text-primary" },
-  success: { iconBg: "bg-emerald-500/10", iconText: "text-emerald-600", text: "text-emerald-600" },
-  destructive: { iconBg: "bg-rose-500/10", iconText: "text-rose-600", text: "text-rose-600" },
-  warning: { iconBg: "bg-amber-500/10", iconText: "text-amber-600", text: "text-amber-600" },
-  neutral: { iconBg: "bg-muted", iconText: "text-muted-foreground", text: "text-muted-foreground" },
-};
+// Cor do "hint" do StatCard conforme o acento semântico
+const HINT_COLOR: Record<string, string> = { primary: SB.accent, success: SB.green, destructive: SB.red, warning: "#a8743a", neutral: SB.muted };
 
-// Card de métrica limpo e profissional (substitui BeaUI.MetricCard) — mantém os mesmos dados
-function StatCard({ label, value, icon, accent = "neutral", hint }: any) {
-  const a = ACCENT[accent] || ACCENT.neutral;
+// Célula de métrica (label + valor mono + hint) no estilo sóbrio. Ignora ícone de propósito.
+function StatCard({ label, value, accent = "neutral", hint }: any) {
+  const neg = typeof value === "string" && value.trim().startsWith("-");
+  const hc = HINT_COLOR[accent] || HINT_COLOR.neutral;
   return (
-    <div className="fin-card-hover rounded-2xl border border-border bg-card p-5 shadow-sm hover:shadow-md hover:border-border/80">
-      <div className="flex items-center justify-between gap-3">
-        <p className="text-[11px] font-semibold uppercase tracking-wide text-muted-foreground truncate">{label}</p>
-        <div className={`shrink-0 w-9 h-9 rounded-xl ${a.iconBg} ${a.iconText} flex items-center justify-center`}>
-          {icon}
-        </div>
-      </div>
-      <p className="mt-3 text-2xl font-bold tracking-tight text-foreground leading-tight">{value}</p>
-      {hint ? <p className={`mt-1 text-xs font-medium ${a.text} truncate`}>{hint}</p> : null}
+    <div className="sbcell">
+      <div style={{ font: "500 10.5px 'IBM Plex Sans'", letterSpacing: ".07em", textTransform: "uppercase", color: SB.faint, marginBottom: 12 }}>{label}</div>
+      <div className="font-mono" style={{ fontSize: 23, fontWeight: 500, lineHeight: 1.1, color: neg ? SB.red : SB.ink, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{value}</div>
+      {hint ? <div style={{ font: "400 12px 'IBM Plex Sans'", color: hc, marginTop: 10, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{hint}</div> : null}
     </div>
   );
 }
 
-// Painel/seção com cabeçalho limpo (substitui BeaUI.Section)
+// Painel de métricas conectado (grade branca com divisórias internas) — substitui BeaUI.StatsGrid
+function StatGroup({ children }: any) {
+  return <div className="sbgroup grid-cols-2 lg:grid-cols-4">{children}</div>;
+}
+
+// Painel/seção: card branco chapado com borda fina e título serifado (substitui BeaUI.Section)
 function Panel({ title, description, action, children }: any) {
   return (
-    <div className="rounded-2xl border border-border bg-card p-5 shadow-sm">
+    <div style={{ background: SB.card, border: `1px solid ${SB.border}`, borderRadius: 10, padding: "24px 26px" }}>
       {(title || description || action) && (
-        <div className="mb-4 flex items-start justify-between gap-3">
-          <div className="min-w-0">
-            {title && <h3 className="text-sm font-semibold text-foreground leading-tight">{title}</h3>}
-            {description && <p className="text-xs text-muted-foreground mt-0.5">{description}</p>}
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 16, marginBottom: 22 }}>
+          <div style={{ minWidth: 0 }}>
+            {title && <div className="fin-serif" style={{ fontSize: 20, fontWeight: 500, color: SB.ink, lineHeight: 1.15 }}>{title}</div>}
+            {description && <div style={{ font: "400 12px 'IBM Plex Sans'", color: SB.muted, marginTop: 3 }}>{description}</div>}
           </div>
-          {action ? <div className="shrink-0">{action}</div> : null}
+          {action ? <div style={{ flex: "none" }}>{action}</div> : null}
         </div>
       )}
       {children}
@@ -410,9 +436,24 @@ function Panel({ title, description, action, children }: any) {
   );
 }
 
-// Botões reutilizáveis com a cor primária do tema
-const BTN_PRIMARY = "inline-flex items-center justify-center gap-2 h-9 px-4 rounded-full text-sm font-semibold text-primary-foreground bg-primary shadow-sm hover:bg-primary/90 active:scale-[.98] transition-all";
-const BTN_GHOST = "inline-flex items-center justify-center gap-2 h-9 px-3 rounded-full text-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground transition-colors";
+// Filtro de período no estilo "chips conectados" (substitui BeaUI.SegmentedControl)
+function PeriodChips({ value, onChange, options }: any) {
+  return (
+    <div style={{ display: "inline-flex", alignItems: "center", background: SB.card, border: `1px solid ${SB.border}`, borderRadius: 8, overflow: "hidden", flexWrap: "wrap" }}>
+      {(Array.isArray(options) ? options : []).map((o: any, i: number) => {
+        const active = o.value === value;
+        return (
+          <button key={o.value} onClick={() => onChange(o.value)} className={active ? "" : "fin-chip"}
+            style={{ padding: "9px 16px", border: 0, borderRight: i < options.length - 1 ? `1px solid ${SB.bInner}` : "none", background: active ? SB.side : "transparent", color: active ? "#fff" : SB.chip, font: `${active ? 600 : 400} 13px 'IBM Plex Sans'`, cursor: "pointer", outline: "none" }}>
+            {o.label}
+          </button>
+        );
+      })}
+    </div>
+  );
+}
+
+const BTN_PRIMARY = "inline-flex items-center justify-center gap-2 h-10 px-4 rounded-lg text-sm font-semibold text-primary-foreground bg-primary hover:opacity-90 active:scale-[.98] transition-all";
 
 function App({ db, user }: any) {
   const { toast } = BeaUI.useToast();
@@ -438,6 +479,16 @@ function App({ db, user }: any) {
   const [uploadProgress, setUploadProgress] = useState<string | null>(null);
   const [dataRowId, setDataRowId] = useState<number | null>(null);
   const canEdit = user.role === "admin" || user.role === "builder";
+
+  // Carrega as fontes do design (Newsreader / IBM Plex Sans / IBM Plex Mono) uma única vez
+  useEffect(() => {
+    const id = "fin-fonts";
+    if (document.getElementById(id)) return;
+    const l = document.createElement("link");
+    l.id = id; l.rel = "stylesheet";
+    l.href = "https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap";
+    document.head.appendChild(l);
+  }, []);
 
   useEffect(() => {
     if (bootstrapped.current) return;
@@ -687,11 +738,12 @@ function App({ db, user }: any) {
     setNewCatInput(""); setNewCatSelect("");
   }
 
-  if (bootErr) return (<div style={ROOT_STYLE} className="min-h-screen bg-muted/30 flex items-center justify-center p-6"><BeaUI.Banner variant="destructive" title="Erro ao iniciar">{bootErr}</BeaUI.Banner></div>);
-  if (!ready) return (<div style={ROOT_STYLE} className="min-h-screen bg-muted/30 flex items-center justify-center"><BeaUI.LoadingState message="Carregando seus dados..." /></div>);
+  if (bootErr) return (<div style={{ ...ROOT_STYLE, background: SB.bg }} className="fin-app min-h-screen flex items-center justify-center p-6"><style>{APP_CSS}</style><BeaUI.Banner variant="destructive" title="Erro ao iniciar">{bootErr}</BeaUI.Banner></div>);
+  if (!ready) return (<div style={{ ...ROOT_STYLE, background: SB.bg }} className="fin-app min-h-screen flex items-center justify-center"><style>{APP_CSS}</style><BeaUI.LoadingState message="Carregando seus dados..." /></div>);
 
   const hasData = cardsRaw.length > 0 || bankRaw.length > 0;
-  const periodStatus = activeMonths.size === 0 ? "sem dados" : activeMonths.size === 1 ? monthLabel([...activeMonths][0]) : `${monthLabel([...activeMonths].sort()[0])} → ${monthLabel([...activeMonths].sort().slice(-1)[0])} (${activeMonths.size} meses)`;
+  const monthsSorted = [...activeMonths].sort() as string[];
+  const rangeLabel = monthsSorted.length ? (monthsSorted.length === 1 ? monthLabel(monthsSorted[0]) : `${monthLabel(monthsSorted[0])} → ${monthLabel(monthsSorted[monthsSorted.length - 1])}`) : "—";
   const currentNav = NAV.find(n => n.value === tab) || NAV[0];
 
   function renderTab() {
@@ -706,122 +758,116 @@ function App({ db, user }: any) {
     }
   }
 
-  const navButtons = (compact: boolean) => (
+  const navButtons = (
     <>
       {(Array.isArray(NAV) ? NAV : []).map(n => {
         const active = tab === n.value;
         return (
-          <button key={n.value} onClick={() => { setTab(n.value); setMobileNav(false); }}
-            className={`w-full flex items-center gap-3 px-3 ${compact ? "py-2" : "py-2.5"} rounded-xl text-sm font-medium transition-colors ${active ? "bg-primary text-primary-foreground shadow-sm" : "text-muted-foreground hover:bg-muted hover:text-foreground"}`}>
-            <BeaUI.Icon name={n.icon} size={18} className="shrink-0" />
-            <span className="truncate">{n.label}</span>
+          <button key={n.value} onClick={() => { setTab(n.value); setMobileNav(false); }} className="fin-nav"
+            style={{ display: "flex", alignItems: "center", gap: 13, padding: "11px 12px", borderRadius: 7, border: 0, borderLeft: `2px solid ${active ? SB.accent : "transparent"}`, background: active ? "rgba(255,255,255,.09)" : "transparent", font: `${active ? 600 : 400} 13.5px 'IBM Plex Sans'`, color: active ? "#fff" : SB.navIdle, cursor: "pointer", textAlign: "left", width: "100%", outline: "none" }}>
+            <BeaUI.Icon name={n.icon} size={17} />
+            <span style={{ whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{n.label}</span>
           </button>
         );
       })}
     </>
   );
 
-  const actionButtons = canEdit ? (
-    <>
-      <button onClick={() => { setShowImport(true); setMobileNav(false); }} className={`${BTN_PRIMARY} w-full`}>
-        <BeaUI.Icon name="upload" size={14} /> Importar PDFs
+  const sidebarActions = canEdit ? (
+    <div style={{ marginTop: "auto", display: "flex", flexDirection: "column", gap: 14, paddingTop: 20, borderTop: "1px solid rgba(255,255,255,.1)" }}>
+      <button onClick={() => { setShowImport(true); setMobileNav(false); }} style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 9, padding: 12, border: 0, borderRadius: 7, background: SB.accent, color: "#fff", font: "600 13px 'IBM Plex Sans'", cursor: "pointer" }}>
+        <BeaUI.Icon name="upload" size={15} /> Importar PDFs
       </button>
-      <button onClick={() => { setShowBudgets(true); setMobileNav(false); }} className={`${BTN_GHOST} w-full justify-start`}>
-        <BeaUI.Icon name="target" size={16} /> Orçamentos
-      </button>
-      <button onClick={() => { setShowRules(true); setMobileNav(false); }} className={`${BTN_GHOST} w-full justify-start`}>
-        <BeaUI.Icon name="settings-2" size={16} /> Regras
-      </button>
-    </>
+      <div style={{ display: "flex", gap: 20, padding: "0 8px" }}>
+        <button onClick={() => { setShowBudgets(true); setMobileNav(false); }} style={{ background: "none", border: 0, padding: 0, color: SB.navMute, font: "400 12px 'IBM Plex Sans'", cursor: "pointer" }}>Orçamentos</button>
+        <button onClick={() => { setShowRules(true); setMobileNav(false); }} style={{ background: "none", border: 0, padding: 0, color: SB.navMute, font: "400 12px 'IBM Plex Sans'", cursor: "pointer" }}>Regras</button>
+      </div>
+    </div>
   ) : null;
 
+  const sidebarInner = (
+    <>
+      <div style={{ display: "flex", alignItems: "center", gap: 13, padding: "0 8px 30px" }}>
+        <div className="fin-serif" style={{ width: 38, height: 38, borderRadius: 7, background: SB.accent, color: "#fff", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 600, fontSize: 19, flex: "none" }}>F</div>
+        <div style={{ minWidth: 0 }}>
+          <div className="fin-serif" style={{ fontWeight: 600, fontSize: 16, lineHeight: 1.05, color: "#fff" }}>Finanças Pessoais</div>
+          <div style={{ font: "400 11px 'IBM Plex Sans'", color: SB.navMute, marginTop: 2 }}>Painel de controle</div>
+        </div>
+      </div>
+      <div style={{ font: "500 10px 'IBM Plex Sans'", letterSpacing: ".14em", color: SB.sect, textTransform: "uppercase", padding: "0 12px 10px" }}>Painel</div>
+      <nav style={{ display: "flex", flexDirection: "column", gap: 2 }}>{navButtons}</nav>
+      {sidebarActions}
+    </>
+  );
+
   return (
-    <div style={ROOT_STYLE} className="min-h-screen bg-muted/30 text-foreground">
+    <div style={{ ...ROOT_STYLE, background: SB.bg, color: SB.ink }} className="fin-app min-h-screen">
       <style>{APP_CSS}</style>
 
-      {/* Sidebar fixa (desktop) */}
-      <aside className="hidden lg:flex lg:flex-col lg:fixed lg:inset-y-0 lg:left-0 lg:w-64 bg-card border-r border-border z-30">
-        <div className="h-16 flex items-center gap-3 px-5 border-b border-border">
-          <div className="w-9 h-9 rounded-xl bg-primary flex items-center justify-center shadow-sm">
-            <BeaUI.Icon name="wallet" size={20} className="text-primary-foreground" />
-          </div>
-          <div className="min-w-0">
-            <h1 className="text-sm font-bold text-foreground leading-none truncate">Finanças Pessoais</h1>
-            <p className="text-[11px] text-muted-foreground mt-1">Painel de controle</p>
-          </div>
-        </div>
-        <nav className="flex-1 overflow-y-auto p-3 space-y-1 fin-no-scrollbar">
-          {navButtons(false)}
-        </nav>
-        {canEdit && <div className="p-3 border-t border-border space-y-1.5">{actionButtons}</div>}
+      {/* ============ SIDEBAR (desktop) ============ */}
+      <aside className="hidden lg:flex lg:flex-col lg:fixed lg:inset-y-0 lg:left-0 lg:w-64 z-30" style={{ background: SB.side, padding: "28px 18px" }}>
+        {sidebarInner}
       </aside>
 
-      {/* Drawer de navegação (mobile) */}
+      {/* ============ Drawer (mobile) ============ */}
       {mobileNav && (
         <div className="lg:hidden fixed inset-0 z-50 fin-fade">
-          <div className="absolute inset-0 bg-foreground/40 backdrop-blur-sm" onClick={() => setMobileNav(false)} />
-          <div className="absolute inset-y-0 left-0 w-72 max-w-[85%] bg-card border-r border-border flex flex-col shadow-2xl">
-            <div className="h-16 flex items-center justify-between gap-3 px-4 border-b border-border">
-              <div className="flex items-center gap-3 min-w-0">
-                <div className="w-9 h-9 rounded-xl bg-primary flex items-center justify-center"><BeaUI.Icon name="wallet" size={20} className="text-primary-foreground" /></div>
-                <h1 className="text-sm font-bold text-foreground truncate">Finanças Pessoais</h1>
-              </div>
-              <button onClick={() => setMobileNav(false)} className="h-9 w-9 flex items-center justify-center rounded-full hover:bg-muted text-muted-foreground"><BeaUI.Icon name="x" size={18} /></button>
-            </div>
-            <nav className="flex-1 overflow-y-auto p-3 space-y-1">{navButtons(false)}</nav>
-            {canEdit && <div className="p-3 border-t border-border space-y-1.5">{actionButtons}</div>}
-          </div>
+          <div className="absolute inset-0" style={{ background: "rgba(28,43,70,.5)" }} onClick={() => setMobileNav(false)} />
+          <aside className="absolute inset-y-0 left-0 flex flex-col" style={{ width: 264, maxWidth: "85%", background: SB.side, padding: "24px 18px" }}>
+            <button onClick={() => setMobileNav(false)} style={{ position: "absolute", top: 18, right: 16, background: "none", border: 0, color: SB.navMute, cursor: "pointer" }}><BeaUI.Icon name="x" size={20} /></button>
+            {sidebarInner}
+          </aside>
         </div>
       )}
 
-      {/* Conteúdo principal */}
-      <div className="lg:pl-64 min-w-0">
-        {/* Topbar */}
-        <header className="sticky top-0 z-20 h-16 flex items-center justify-between gap-3 px-4 sm:px-6 bg-card/90 backdrop-blur-md border-b border-border">
-          <div className="flex items-center gap-3 min-w-0">
-            <button onClick={() => setMobileNav(true)} className="lg:hidden h-9 w-9 flex items-center justify-center rounded-full hover:bg-muted text-foreground shrink-0"><BeaUI.Icon name="menu" size={20} /></button>
-            <div className="min-w-0">
-              <h2 className="text-base font-bold text-foreground leading-tight truncate">{currentNav.label}</h2>
-              <p className="text-xs text-muted-foreground hidden sm:block">Acompanhe gastos, renda e orçamento</p>
-            </div>
-          </div>
-          <div className="flex items-center gap-2 shrink-0">
-            <span className="hidden md:inline-flex items-center gap-1.5 text-xs font-medium text-primary bg-primary/10 px-3 py-1.5 rounded-full"><BeaUI.Icon name="calendar" size={14} /> {periodStatus}</span>
-            {canEdit && (
-              <button onClick={() => setShowImport(true)} className={`${BTN_PRIMARY} lg:hidden`}>
-                <BeaUI.Icon name="upload" size={14} /> <span className="hidden sm:inline">Importar</span>
-              </button>
-            )}
-          </div>
-        </header>
+      {/* ============ MAIN ============ */}
+      <div className="lg:pl-64">
+        {/* Topbar mobile (hambúrguer) */}
+        <div className="lg:hidden sticky top-0 z-20 flex items-center gap-3 h-14 px-4" style={{ background: SB.card, borderBottom: `1px solid ${SB.border}` }}>
+          <button onClick={() => setMobileNav(true)} style={{ background: "none", border: 0, color: SB.ink, cursor: "pointer", display: "flex" }}><BeaUI.Icon name="menu" size={22} /></button>
+          <div className="fin-serif" style={{ fontWeight: 600, fontSize: 16, color: SB.ink }}>Finanças Pessoais</div>
+        </div>
 
-        <main className="max-w-7xl mx-auto px-4 sm:px-6 py-6 space-y-6">
+        <main className="px-5 sm:px-8 lg:px-10 py-6 lg:py-8" style={{ maxWidth: 1320, margin: "0 auto" }}>
+          {/* Cabeçalho da seção */}
+          <header style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 20, marginBottom: 24, paddingBottom: 22, borderBottom: `1px solid ${SB.border}` }}>
+            <div style={{ minWidth: 0 }}>
+              <div className="fin-serif" style={{ fontSize: 32, lineHeight: 1.05, fontWeight: 500, color: SB.ink }}>{currentNav.label}</div>
+              <div style={{ font: "400 14px 'IBM Plex Sans'", color: SB.muted, marginTop: 6 }}>{currentNav.sub}</div>
+            </div>
+            {hasData && (
+              <div style={{ textAlign: "right", flex: "none" }} className="hidden sm:block">
+                <div style={{ font: "400 11px 'IBM Plex Sans'", letterSpacing: ".1em", color: SB.faint, textTransform: "uppercase" }}>Período analisado</div>
+                <div className="font-mono" style={{ fontSize: 16, fontWeight: 500, color: SB.ink, marginTop: 4 }}>{rangeLabel}</div>
+                <div style={{ font: "400 12px 'IBM Plex Sans'", color: SB.faint, marginTop: 2 }}>{activeMonths.size} {activeMonths.size === 1 ? "mês" : "meses"}</div>
+              </div>
+            )}
+          </header>
+
           {!hasData ? (
-            <div className="fin-fade rounded-2xl border border-border bg-card p-8 sm:p-12 shadow-sm">
+            <div className="fin-fade" style={{ background: SB.card, border: `1px solid ${SB.border}`, borderRadius: 10, padding: "48px 36px" }}>
               <BeaUI.EmptyStateIllustrated illustration="data" title="Comece importando seus PDFs"
                 description="Faça upload das faturas (Elo, Master) e do extrato bancário. Tudo é processado no seu browser e salvo na sua conta."
                 action={canEdit ? <button onClick={() => setShowImport(true)} className={BTN_PRIMARY}><BeaUI.Icon name="upload" size={14} /> Importar PDFs</button> : null} />
             </div>
           ) : (
             <>
-              <div className="rounded-2xl border border-border bg-card p-3 sm:p-4 flex flex-wrap items-center gap-3 shadow-sm fin-fade">
-                <span className="text-[11px] uppercase tracking-wide font-semibold text-muted-foreground inline-flex items-center gap-1.5"><BeaUI.Icon name="calendar" size={14} /> Período</span>
-                <BeaUI.SegmentedControl value={periodPreset} onChange={(v: any) => setPeriodPreset(v)} size="sm"
+              <div className="fin-fade" style={{ display: "flex", flexWrap: "wrap", alignItems: "center", justifyContent: "space-between", gap: 12, marginBottom: 22 }}>
+                <PeriodChips value={periodPreset} onChange={(v: string) => setPeriodPreset(v)}
                   options={[{ value: "all", label: "Tudo" }, { value: "last1", label: "Último mês" }, { value: "last3", label: "3 meses" }, { value: "last6", label: "6 meses" }, { value: "last12", label: "12 meses" }, { value: "custom", label: "Personalizado" }]} />
-                {periodPreset === "custom" && (
-                  <div className="flex items-center gap-2 text-sm fin-fade">
-                    <span className="text-muted-foreground">De</span>
-                    <input type="month" value={periodFrom} onChange={e => setPeriodFrom(e.target.value)} className="h-9 px-3 rounded-full border border-input bg-background text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-ring" />
-                    <span className="text-muted-foreground">até</span>
-                    <input type="month" value={periodTo} onChange={e => setPeriodTo(e.target.value)} className="h-9 px-3 rounded-full border border-input bg-background text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-ring" />
+                {periodPreset === "custom" ? (
+                  <div className="fin-fade" style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                    <span style={{ font: "400 13px 'IBM Plex Sans'", color: SB.muted }}>De</span>
+                    <input type="month" value={periodFrom} onChange={e => setPeriodFrom(e.target.value)} style={{ height: 38, padding: "0 12px", borderRadius: 8, border: `1px solid #d6d4ca`, background: SB.card, font: "400 13px 'IBM Plex Sans'", color: SB.ink }} />
+                    <span style={{ font: "400 13px 'IBM Plex Sans'", color: SB.muted }}>até</span>
+                    <input type="month" value={periodTo} onChange={e => setPeriodTo(e.target.value)} style={{ height: 38, padding: "0 12px", borderRadius: 8, border: `1px solid #d6d4ca`, background: SB.card, font: "400 13px 'IBM Plex Sans'", color: SB.ink }} />
                   </div>
+                ) : (
+                  <span className="sm:hidden font-mono" style={{ fontSize: 13, color: SB.ink }}>{rangeLabel}</span>
                 )}
-                <span className="md:hidden ml-auto inline-flex items-center gap-1.5 text-xs font-medium text-primary bg-primary/10 px-3 py-1.5 rounded-full"><BeaUI.Icon name="calendar" size={14} /> {periodStatus}</span>
               </div>
 
-              <div key={tab} className="fin-fade">
-                {renderTab()}
-              </div>
+              <div key={tab} className="fin-fade">{renderTab()}</div>
             </>
           )}
         </main>
@@ -831,14 +877,14 @@ function App({ db, user }: any) {
         <BeaUI.Dialog open={true} onClose={() => setReclassifying(null)} title="Reclassificar categoria">
           <div className="space-y-3">
             <p className="text-sm text-muted-foreground">Mudar categoria de <strong className="text-foreground">{reclassifying.label}</strong></p>
-            <BeaUI.FormField label="Categoria atual"><input className="w-full h-9 px-3 rounded-full border border-input bg-muted text-sm text-foreground" value={reclassifying.cat} disabled /></BeaUI.FormField>
+            <BeaUI.FormField label="Categoria atual"><input className="w-full h-9 px-3 rounded-lg border border-input bg-muted text-sm text-foreground" value={reclassifying.cat} disabled /></BeaUI.FormField>
             <BeaUI.FormField label="Nova categoria">
-              <select className="w-full h-9 px-3 rounded-full border border-input bg-background text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-ring" value={newCatSelect} onChange={e => setNewCatSelect(e.target.value)}>
+              <select className="w-full h-9 px-3 rounded-lg border border-input bg-background text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-ring" value={newCatSelect} onChange={e => setNewCatSelect(e.target.value)}>
                 <option value="">— Escolha —</option>
                 {(Array.isArray(knownCats)?knownCats:[]).filter(c => c !== reclassifying.cat).map(c => <option key={c} value={c}>{c}</option>)}
               </select>
             </BeaUI.FormField>
-            <BeaUI.FormField label="Ou digite uma nova"><input type="text" className="w-full h-9 px-3 rounded-full border border-input bg-background text-sm focus:outline-none focus:ring-2 focus:ring-ring" placeholder="ex: Saúde mental, Cartão Jordana..." value={newCatInput} onChange={e => setNewCatInput(e.target.value)} /></BeaUI.FormField>
+            <BeaUI.FormField label="Ou digite uma nova"><input type="text" className="w-full h-9 px-3 rounded-lg border border-input bg-background text-sm focus:outline-none focus:ring-2 focus:ring-ring" placeholder="ex: Saúde mental, Cartão Jordana..." value={newCatInput} onChange={e => setNewCatInput(e.target.value)} /></BeaUI.FormField>
             <p className="text-xs text-muted-foreground">A regra vale para todas as transações deste estabelecimento.</p>
             <div className="flex gap-2 justify-end pt-2">
               <BeaUI.Button variant="ghost" onClick={() => setReclassifying(null)}>Cancelar</BeaUI.Button>
@@ -862,12 +908,12 @@ function App({ db, user }: any) {
             ) : (
               <div className="max-h-96 overflow-y-auto space-y-2">
                 {Object.entries(overrides).sort().map(([k, c]) => (
-                  <div key={k} className="flex items-center gap-3 p-3 rounded-2xl border border-border bg-muted/40 hover:bg-muted transition-colors">
+                  <div key={k} className="flex items-center gap-3 p-3 rounded-lg border border-border bg-muted/40 hover:bg-muted transition-colors">
                     <div className="flex-1 min-w-0">
                       <p className="text-sm font-medium text-foreground truncate">{k.replace(/^card:|^bank:|^bank-type:/, "")}</p>
-                      <p className="text-xs text-muted-foreground truncate">{k.startsWith("card:") ? "💳 Cartão" : k.startsWith("bank-type:") ? "🏦 Tipo bancário" : "🏦 Contraparte"} → <strong className="text-primary">{c}</strong></p>
+                      <p className="text-xs text-muted-foreground truncate">{k.startsWith("card:") ? "Cartão" : k.startsWith("bank-type:") ? "Tipo bancário" : "Contraparte"} → <strong className="text-primary">{c}</strong></p>
                     </div>
-                    <button onClick={() => clearOverride(k)} className="h-8 w-8 flex items-center justify-center rounded-full hover:bg-destructive/10 text-destructive transition-colors" title="Remover"><BeaUI.Icon name="trash-2" size={14} /></button>
+                    <button onClick={() => clearOverride(k)} className="h-8 w-8 flex items-center justify-center rounded-lg hover:bg-destructive/10 text-destructive transition-colors" title="Remover"><BeaUI.Icon name="trash-2" size={14} /></button>
                   </div>
                 ))}
               </div>
@@ -887,10 +933,10 @@ function App({ db, user }: any) {
               Faça upload das faturas (<code>Elo Maio.pdf</code>, <code>Master Janeiro.pdf</code>) e do extrato (<code>Extrato.pdf</code>). Tudo é parseado no browser e salvo em UMA única operação no banco.
             </BeaUI.Banner>
             <label className="block">
-              <input type="file" multiple accept=".pdf,application/pdf" disabled={!!uploadProgress} onChange={e => { if (e.target.files) handlePDFUpload(e.target.files); }} className="block w-full text-sm text-muted-foreground file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-primary file:text-primary-foreground hover:file:bg-primary/90 disabled:opacity-50" />
+              <input type="file" multiple accept=".pdf,application/pdf" disabled={!!uploadProgress} onChange={e => { if (e.target.files) handlePDFUpload(e.target.files); }} className="block w-full text-sm text-muted-foreground file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-primary file:text-primary-foreground hover:file:opacity-90 disabled:opacity-50" />
             </label>
             {uploadProgress && (
-              <div className="rounded-2xl border border-primary/30 bg-primary/5 p-4 flex items-center gap-3 fin-fade">
+              <div className="rounded-lg border border-primary/30 bg-primary/5 p-4 flex items-center gap-3 fin-fade">
                 <BeaUI.Spinner size="md" />
                 <span className="text-sm text-foreground">{uploadProgress}</span>
               </div>
@@ -928,40 +974,60 @@ function Overview({ fCards, fBank, cardInsights, bankInsights, unifiedExpenses, 
   const totalBudget = Object.values(budgets || {}).reduce((s: number, v: any) => s + (v || 0), 0);
   const aluguel = bankInsights.byCat["Moradia (Aluguel/Cond)"] || 0;
   const mercado = (expByCat["Mercado"] || 0);
+  const maxCat = topCats.length ? (topCats[0][1] as number) : 1;
 
   return (
-    <div className="space-y-6">
-      <BeaUI.StatsGrid>
-        <StatCard label="Renda recebida" value={fmtBRL(renda)} icon={<BeaUI.Icon name="trending-up" />} accent="success" hint={`PIX de terceiros · ${nMonths}m`} />
-        <StatCard label="Despesas totais" value={fmtBRL(total)} icon={<BeaUI.Icon name="trending-down" />} accent="destructive" hint={`Cartão + extrato`} />
-        <StatCard label="Saldo líquido" value={fmtBRL(renda - total)} icon={<BeaUI.Icon name="wallet" />} accent={renda - total >= 0 ? "success" : "destructive"} hint={renda > 0 ? `Taxa poupança ${savingsRate.toFixed(0)}%` : ""} />
-        <StatCard label="Aportes investimento" value={fmtBRL(aportes)} icon={<BeaUI.Icon name="piggy-bank" />} accent="primary" hint={`${fmtBRL(aportes / nMonths)}/mês`} />
-      </BeaUI.StatsGrid>
+    <div className="space-y-4">
+      <StatGroup>
+        <StatCard label="Renda recebida" value={fmtBRL(renda)} accent="success" hint={`PIX de terceiros · ${nMonths}m`} />
+        <StatCard label="Despesas totais" value={fmtBRL(total)} accent="destructive" hint="Cartão + extrato bancário" />
+        <StatCard label="Saldo líquido" value={fmtBRL(renda - total)} accent={renda - total >= 0 ? "success" : "destructive"} hint={renda > 0 ? `Taxa de poupança ${savingsRate.toFixed(0)}%` : ""} />
+        <StatCard label="Aportes investimento" value={fmtBRL(aportes)} accent="primary" hint={`${fmtBRL(aportes / nMonths)} / mês`} />
+      </StatGroup>
 
-      <BeaUI.StatsGrid>
-        <StatCard label="Média de gastos/mês" value={fmtBRL(total / nMonths)} icon={<BeaUI.Icon name="calendar" />} accent="primary" />
-        <StatCard label="Gasto no cartão" value={fmtBRL(cardTotal)} icon={<BeaUI.Icon name="credit-card" />} accent="neutral" hint={total > 0 ? `${((cardTotal / total) * 100).toFixed(0)}% do total` : ""} />
-        <StatCard label="Gasto via conta" value={fmtBRL(despReais)} icon={<BeaUI.Icon name="building-2" />} accent="neutral" hint={total > 0 ? `${((despReais / total) * 100).toFixed(0)}% do total` : ""} />
-        <StatCard label="Orçamento definido" value={totalBudget > 0 ? fmtBRL(totalBudget) : "—"} icon={<BeaUI.Icon name="target" />} accent={totalBudget > 0 && (total / nMonths) > totalBudget ? "destructive" : "success"} hint={totalBudget > 0 ? `Realizado ${fmtBRL(total / nMonths)}/mês` : "Defina nas Configurações"} />
-      </BeaUI.StatsGrid>
+      <StatGroup>
+        <StatCard label="Média gastos/mês" value={fmtBRL(total / nMonths)} accent="neutral" />
+        <StatCard label="Gasto no cartão" value={fmtBRL(cardTotal)} accent="neutral" hint={total > 0 ? `${((cardTotal / total) * 100).toFixed(0)}% do total` : ""} />
+        <StatCard label="Gasto via conta" value={fmtBRL(despReais)} accent="neutral" hint={total > 0 ? `${((despReais / total) * 100).toFixed(0)}% do total` : ""} />
+        <StatCard label="Orçamento definido" value={totalBudget > 0 ? fmtBRL(totalBudget) : "—"} accent={totalBudget > 0 && (total / nMonths) > totalBudget ? "destructive" : "success"} hint={totalBudget > 0 ? `Realizado ${fmtBRL(total / nMonths)}/mês` : "Defina no Orçamento"} />
+      </StatGroup>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-        <Panel title="Fluxo mensal" description="Renda × despesas">
-          <div className="h-72"><BeaUI.BarChart data={{ labels: monthsLabels, datasets: [{ label: "Renda", data: rendaPerMonth, backgroundColor: "hsl(160 84% 39%)" }, { label: "Cartões", data: (Array.isArray(cardPerMonth)?cardPerMonth:[]).map(v => -v), backgroundColor: "hsl(217 91% 60%)" }, { label: "Outras saídas", data: (Array.isArray(bankExpPerMonth)?bankExpPerMonth:[]).map(v => -v), backgroundColor: "hsl(0 84% 60%)" }] }} /></div>
+      <div className="grid grid-cols-1 lg:grid-cols-[1.55fr_1fr] gap-4">
+        <Panel title="Fluxo mensal" description="Renda × despesas no período">
+          <div className="h-72"><BeaUI.BarChart data={{ labels: monthsLabels, datasets: [{ label: "Renda", data: rendaPerMonth, backgroundColor: SB.green }, { label: "Cartões", data: (Array.isArray(cardPerMonth)?cardPerMonth:[]).map(v => -v), backgroundColor: SB.side }, { label: "Outras saídas", data: (Array.isArray(bankExpPerMonth)?bankExpPerMonth:[]).map(v => -v), backgroundColor: SB.red }] }} /></div>
         </Panel>
         <Panel title="Para onde vai o dinheiro" description="Todas as despesas por categoria">
-          <div className="h-72 flex items-center justify-center"><BeaUI.DonutChart data={(Array.isArray(topCats)?topCats:[]).slice(0, 10).map(([label, value]: any, i: number) => ({ label, value, color: catColor(label, i) }))} centerLabel="Total" centerValue={fmtBRL(total).replace("R$", "").trim()} height={240} /></div>
+          <div className="space-y-3">
+            {(Array.isArray(topCats)?topCats:[]).slice(0, 6).map(([cat, val]: any, i: number) => {
+              const share = total > 0 ? (val / total) * 100 : 0;
+              return (
+                <div key={cat}>
+                  <div className="flex justify-between" style={{ marginBottom: 6 }}>
+                    <span style={{ font: "400 13px 'IBM Plex Sans'", color: SB.ink }}>{cat}</span>
+                    <span className="font-mono" style={{ fontSize: 13, color: SB.chip }}>{share.toFixed(0)}%</span>
+                  </div>
+                  <div style={{ height: 7, background: SB.bInner, borderRadius: 4, overflow: "hidden" }}>
+                    <div style={{ width: `${(val / maxCat) * 100}%`, height: "100%", background: catColor(cat, i) }} />
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+          <div style={{ marginTop: 22, paddingTop: 16, borderTop: `1px solid ${SB.bInner}`, display: "flex", justifyContent: "space-between", alignItems: "baseline" }}>
+            <span style={{ font: "400 11px 'IBM Plex Sans'", letterSpacing: ".07em", color: SB.faint, textTransform: "uppercase" }}>Total de despesas</span>
+            <span className="font-mono" style={{ fontSize: 20, fontWeight: 500, color: SB.ink }}>{fmtBRL(total)}</span>
+          </div>
         </Panel>
       </div>
 
       <Panel title="Gasto total mês a mês" description="Soma de cartões + conta">
-        <div className="h-64"><BeaUI.LineChart data={{ labels: monthsLabels, datasets: [{ label: "Despesas totais", data: totalExpPerMonth, borderColor: "hsl(0 84% 60%)", backgroundColor: "hsl(0 84% 60% / 0.1)", fill: true, tension: 0.3 } as any, { label: "Renda", data: rendaPerMonth, borderColor: "hsl(160 84% 39%)", backgroundColor: "hsl(160 84% 39% / 0.05)", fill: false, tension: 0.3 } as any] }} /></div>
+        <div className="h-64"><BeaUI.LineChart data={{ labels: monthsLabels, datasets: [{ label: "Despesas totais", data: totalExpPerMonth, borderColor: SB.red, backgroundColor: "rgba(176,58,48,0.10)", fill: true, tension: 0.3 } as any, { label: "Renda", data: rendaPerMonth, borderColor: SB.green, backgroundColor: "rgba(46,125,82,0.05)", fill: false, tension: 0.3 } as any] }} /></div>
       </Panel>
 
-      <Panel title="Insights consolidados">
+      <Panel title="Resumo do período">
         <div className="space-y-3">
-          <BeaUI.Banner variant="info" icon={<BeaUI.Icon name="zap" size={16} />}><strong>Renda × Despesas:</strong> {fmtBRL(renda)} de recebimentos × {fmtBRL(total)} em saídas. Diferença: <strong>{fmtBRL(renda - total)}</strong> em {nMonths} {nMonths === 1 ? "mês" : "meses"}{renda > 0 ? ` · taxa de poupança ${savingsRate.toFixed(0)}%` : ""}.</BeaUI.Banner>
-          {total > 0 && <BeaUI.Banner variant="warning" icon={<BeaUI.Icon name="trending-down" size={16} />}><strong>Composição:</strong> Cartões {fmtBRL(cardTotal)} ({((cardTotal / total) * 100).toFixed(0)}%) + Outras saídas {fmtBRL(despReais)} ({((despReais / total) * 100).toFixed(0)}%). Maiores blocos: {(Array.isArray(topCats)?topCats:[]).slice(0, 4).map(([k, v]: any) => `${k} ${fmtBRL(v)}`).join(" · ")}.</BeaUI.Banner>}
+          <BeaUI.Banner variant="info" icon={<BeaUI.Icon name="info" size={16} />}><strong>Renda × Despesas:</strong> {fmtBRL(renda)} de recebimentos × {fmtBRL(total)} em saídas. Diferença: <strong>{fmtBRL(renda - total)}</strong> em {nMonths} {nMonths === 1 ? "mês" : "meses"}{renda > 0 ? ` · taxa de poupança ${savingsRate.toFixed(0)}%` : ""}.</BeaUI.Banner>
+          {total > 0 && <BeaUI.Banner variant="warning" icon={<BeaUI.Icon name="pie-chart" size={16} />}><strong>Composição:</strong> Cartões {fmtBRL(cardTotal)} ({((cardTotal / total) * 100).toFixed(0)}%) + Outras saídas {fmtBRL(despReais)} ({((despReais / total) * 100).toFixed(0)}%). Maiores blocos: {(Array.isArray(topCats)?topCats:[]).slice(0, 4).map(([k, v]: any) => `${k} ${fmtBRL(v)}`).join(" · ")}.</BeaUI.Banner>}
           {(aluguel + mercado) > 0 && <BeaUI.Banner variant="success" icon={<BeaUI.Icon name="lightbulb" size={16} />}><strong>Média mensal das principais:</strong> {(Array.isArray(topCats)?topCats:[]).slice(0, 5).map(([k, v]: any) => `${k} ${fmtBRL(v / nMonths)}`).join(" · ")}.</BeaUI.Banner>}
         </div>
       </Panel>
@@ -982,18 +1048,16 @@ function Expenses({ unifiedExpenses, nMonths, activeMonths, budgets }: any) {
   const filtered = (Array.isArray(unifiedExpenses)?unifiedExpenses:[]).filter((r: any) => (fcat === "all" || r.category === fcat) && (fsrc === "all" || r.source === fsrc));
   const sorted = [...filtered].sort((a, b) => sortBy === "amount" ? b.amount - a.amount : b.date.localeCompare(a.date));
   const filteredTotal = (Array.isArray(filtered)?filtered:[]).reduce((s: number, r: any) => s + r.amount, 0);
-
-  // ranking de categorias com barra de progresso
   const maxCat = byCatArr.length ? (byCatArr[0][1] as number) : 1;
 
   return (
-    <div className="space-y-6">
-      <BeaUI.StatsGrid>
-        <StatCard label="Despesas no período" value={fmtBRL(totalExp)} icon={<BeaUI.Icon name="banknote" />} accent="destructive" hint={`${unifiedExpenses.length} lançamentos`} />
-        <StatCard label="Média mensal" value={fmtBRL(totalExp / nMonths)} icon={<BeaUI.Icon name="calendar" />} accent="primary" />
-        <StatCard label="Categorias ativas" value={String(cats.length)} icon={<BeaUI.Icon name="layers" />} accent="neutral" />
-        <StatCard label="Maior categoria" value={byCatArr.length ? (byCatArr[0][0] as string) : "—"} icon={<BeaUI.Icon name="award" />} accent="warning" hint={byCatArr.length ? fmtBRL(byCatArr[0][1] as number) : ""} />
-      </BeaUI.StatsGrid>
+    <div className="space-y-4">
+      <StatGroup>
+        <StatCard label="Total no período" value={fmtBRL(totalExp)} accent="destructive" hint={`${unifiedExpenses.length} lançamentos`} />
+        <StatCard label="Média mensal" value={fmtBRL(totalExp / nMonths)} accent="neutral" />
+        <StatCard label="Categorias ativas" value={String(cats.length)} accent="neutral" />
+        <StatCard label="Maior categoria" value={byCatArr.length ? (byCatArr[0][0] as string) : "—"} accent="warning" hint={byCatArr.length ? fmtBRL(byCatArr[0][1] as number) : ""} />
+      </StatGroup>
 
       <div className="grid grid-cols-1 lg:grid-cols-5 gap-4">
         <div className="lg:col-span-3">
@@ -1007,15 +1071,15 @@ function Expenses({ unifiedExpenses, nMonths, activeMonths, budgets }: any) {
                 const over = budMonthly != null && val > budMonthly;
                 return (
                   <div key={cat} className="space-y-1">
-                    <div className="flex items-center justify-between text-sm">
-                      <span className="font-medium text-foreground flex items-center gap-2"><span className="w-2.5 h-2.5 rounded-full" style={{ background: catColor(cat, i) }} />{cat}</span>
-                      <span className="font-mono text-foreground">{fmtBRL(val)} <span className="text-xs text-muted-foreground">({share.toFixed(0)}%)</span></span>
+                    <div className="flex items-center justify-between" style={{ font: "400 13px 'IBM Plex Sans'" }}>
+                      <span style={{ color: SB.ink, display: "flex", alignItems: "center", gap: 8 }}><span style={{ width: 8, height: 8, borderRadius: 2, background: catColor(cat, i) }} />{cat}</span>
+                      <span className="font-mono" style={{ color: SB.ink }}>{fmtBRL(val)} <span style={{ color: SB.faint }}>({share.toFixed(0)}%)</span></span>
                     </div>
-                    <div className="h-2.5 rounded-full bg-muted overflow-hidden">
-                      <div className="h-full rounded-full transition-all" style={{ width: `${pct}%`, background: over ? "hsl(0 84% 60%)" : catColor(cat, i) }} />
+                    <div style={{ height: 7, background: SB.bInner, borderRadius: 4, overflow: "hidden" }}>
+                      <div style={{ width: `${pct}%`, height: "100%", background: over ? SB.red : catColor(cat, i) }} />
                     </div>
                     {budMonthly != null && (
-                      <p className="text-xs text-muted-foreground">{over ? "⚠️ " : "✓ "}{fmtBRL(val / nMonths)}/mês vs orçamento {fmtBRL(bud)}/mês</p>
+                      <p style={{ font: "400 12px 'IBM Plex Sans'", color: over ? SB.red : SB.muted }}>{over ? "Acima do limite · " : "Dentro · "}{fmtBRL(val / nMonths)}/mês vs orçamento {fmtBRL(bud)}/mês</p>
                     )}
                   </div>
                 );
@@ -1033,16 +1097,16 @@ function Expenses({ unifiedExpenses, nMonths, activeMonths, budgets }: any) {
       <Panel title="Todos os lançamentos" description="Cartão + conta unificados">
         <div className="flex flex-wrap gap-3 items-center mb-4">
           <PillSel label="Categoria" value={fcat} onChange={setFcat} options={[{ value: "all", label: "Todas" }, ...cats.map(c => ({ value: c, label: c }))]} />
-          <PillSel label="Origem" value={fsrc} onChange={setFsrc} options={[{ value: "all", label: "Todas" }, { value: "cartao", label: "💳 Cartão" }, { value: "extrato", label: "🏦 Conta" }]} />
+          <PillSel label="Origem" value={fsrc} onChange={setFsrc} options={[{ value: "all", label: "Todas" }, { value: "cartao", label: "Cartão" }, { value: "extrato", label: "Conta" }]} />
           <PillSel label="Ordenar" value={sortBy} onChange={setSortBy} options={[{ value: "date", label: "Data" }, { value: "amount", label: "Valor" }]} />
-          <span className="ml-auto text-sm text-muted-foreground">Total filtrado: <strong className="text-foreground font-mono">{fmtBRL(filteredTotal)}</strong></span>
+          <span className="ml-auto" style={{ font: "400 13px 'IBM Plex Sans'", color: SB.muted }}>Total filtrado: <strong className="font-mono" style={{ color: SB.ink }}>{fmtBRL(filteredTotal)}</strong></span>
         </div>
         <BeaUI.DataTable data={sorted} searchable pageSize={30} columns={[
-          { key: "date", header: "Data", render: (v: any) => <span className="font-mono text-xs">{new Date(v).toLocaleDateString("pt-BR")}</span> },
-          { key: "source", header: "Origem", render: (v: string) => <BeaUI.Badge variant={v === "cartao" ? "default" : "secondary"}>{v === "cartao" ? "💳 Cartão" : "🏦 Conta"}</BeaUI.Badge> },
-          { key: "label", header: "Descrição" },
-          { key: "category", header: "Categoria", render: (v: string, _r: any, i: number) => (<span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium" style={{ background: catColor(v, i || 0) + "22", color: catColor(v, i || 0) }}>{v}</span>) },
-          { key: "amount", header: "Valor", render: (v: number) => <span className="font-mono">{fmtNum(v)}</span>, className: "text-right" },
+          { key: "date", header: "Data", render: (v: any) => <span className="font-mono text-xs" style={{ color: SB.muted }}>{new Date(v).toLocaleDateString("pt-BR")}</span> },
+          { key: "label", header: "Descrição", render: (v: any) => <span style={{ color: SB.ink }}>{v}</span> },
+          { key: "category", header: "Categoria", render: (v: string, _r: any, i: number) => <CatTag cat={v} idx={i || 0} /> },
+          { key: "source", header: "Origem", render: (v: string) => <span style={{ font: "400 13px 'IBM Plex Sans'", color: SB.chip }}>{v === "cartao" ? "Cartão" : "Conta"}</span> },
+          { key: "amount", header: "Valor", render: (v: number) => <span className="font-mono" style={{ color: SB.ink }}>{fmtNum(v)}</span>, className: "text-right" },
         ]} emptyMessage="Nenhuma despesa" />
       </Panel>
     </div>
@@ -1054,24 +1118,20 @@ function Trends({ fCards, fBank, unifiedExpenses, activeMonths }: any) {
   const monthsArr = [...activeMonths].sort() as string[];
   const monthsLabels = (Array.isArray(monthsArr)?monthsArr:[]).map(monthLabel);
 
-  // top categorias do período para acompanhar evolução
   const byCat: Record<string, number> = {};
   (Array.isArray(unifiedExpenses)?unifiedExpenses:[]).forEach((r: any) => { byCat[r.category] = (byCat[r.category] || 0) + r.amount; });
   const topCats = Object.entries(byCat).sort((a: any, b: any) => b[1] - a[1]).slice(0, 6).map(([k]) => k);
 
-  // série mensal por categoria (stacked area via barras empilhadas)
   const datasetsStacked = (Array.isArray(topCats)?topCats:[]).map((cat, i) => ({
     label: cat,
     data: (Array.isArray(monthsArr)?monthsArr:[]).map(m => (Array.isArray(unifiedExpenses)?unifiedExpenses:[]).filter((r: any) => r.month === m && r.category === cat).reduce((s: number, r: any) => s + r.amount, 0)),
     backgroundColor: catColor(cat, i),
   }));
 
-  // total mensal + média móvel simples
   const totalPerMonth = (Array.isArray(monthsArr)?monthsArr:[]).map(m => (Array.isArray(unifiedExpenses)?unifiedExpenses:[]).filter((r: any) => r.month === m).reduce((s: number, r: any) => s + r.amount, 0));
   const avg = totalPerMonth.length ? (Array.isArray(totalPerMonth)?totalPerMonth:[]).reduce((a, b) => a + b, 0) / totalPerMonth.length : 0;
   const avgLine = (Array.isArray(monthsArr)?monthsArr:[]).map(() => avg);
 
-  // variação mês a mês
   const deltas = (Array.isArray(monthsArr)?monthsArr:[]).map((m, i) => {
     if (i === 0) return null;
     const prev = totalPerMonth[i - 1], cur = totalPerMonth[i];
@@ -1079,7 +1139,6 @@ function Trends({ fCards, fBank, unifiedExpenses, activeMonths }: any) {
     return { month: monthLabel(m), prev, cur, delta: cur - prev, pct };
   }).filter(Boolean);
 
-  // comparativo: primeiro vs último mês por categoria
   const firstM = monthsArr[0], lastM = monthsArr[monthsArr.length - 1];
   const compare = monthsArr.length >= 2 ? (Array.isArray(topCats)?topCats:[]).map((cat, i) => {
     const fv = (Array.isArray(unifiedExpenses)?unifiedExpenses:[]).filter((r: any) => r.month === firstM && r.category === cat).reduce((s: number, r: any) => s + r.amount, 0);
@@ -1088,13 +1147,13 @@ function Trends({ fCards, fBank, unifiedExpenses, activeMonths }: any) {
   }) : [];
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4">
       <Panel title="Evolução das despesas por categoria" description="Composição mês a mês">
         <div className="h-96"><BeaUI.BarChart data={{ labels: monthsLabels, datasets: datasetsStacked }} options={{ scales: { x: { stacked: true }, y: { stacked: true } } } as any} /></div>
       </Panel>
 
       <Panel title="Gasto total + média do período" description="Linha tracejada = média mensal">
-        <div className="h-72"><BeaUI.LineChart data={{ labels: monthsLabels, datasets: [{ label: "Total mensal", data: totalPerMonth, borderColor: "hsl(217 91% 60%)", backgroundColor: "hsl(217 91% 60% / 0.1)", fill: true, tension: 0.3 } as any, { label: "Média", data: avgLine, borderColor: "hsl(0 84% 60%)", borderDash: [6, 6], fill: false, pointRadius: 0 } as any] }} /></div>
+        <div className="h-72"><BeaUI.LineChart data={{ labels: monthsLabels, datasets: [{ label: "Total mensal", data: totalPerMonth, borderColor: SB.accent, backgroundColor: "rgba(200,112,42,0.10)", fill: true, tension: 0.3 } as any, { label: "Média", data: avgLine, borderColor: SB.red, borderDash: [6, 6], fill: false, pointRadius: 0 } as any] }} /></div>
       </Panel>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
@@ -1104,11 +1163,11 @@ function Trends({ fCards, fBank, unifiedExpenses, activeMonths }: any) {
           ) : (
             <div className="space-y-2">
               {(Array.isArray(deltas)?deltas:[]).map((d: any) => (
-                <div key={d.month} className="flex items-center justify-between p-3 rounded-2xl border border-border bg-muted/30 hover:bg-muted transition-colors">
-                  <span className="text-sm font-medium text-foreground">{d.month}</span>
+                <div key={d.month} className="flex items-center justify-between" style={{ padding: "13px 14px", borderRadius: 8, border: `1px solid ${SB.row}`, background: "#fcfcfa" }}>
+                  <span style={{ font: "500 14px 'IBM Plex Sans'", color: SB.ink }}>{d.month}</span>
                   <div className="flex items-center gap-3">
-                    <span className="font-mono text-sm text-foreground">{fmtBRL(d.cur)}</span>
-                    <BeaUI.Badge variant={d.delta > 0 ? "destructive" : "success"}>{d.delta > 0 ? "▲" : "▼"} {Math.abs(d.pct).toFixed(0)}%</BeaUI.Badge>
+                    <span className="font-mono" style={{ fontSize: 14, color: SB.ink }}>{fmtBRL(d.cur)}</span>
+                    <span className="font-mono" style={{ fontSize: 13, fontWeight: 500, color: d.delta > 0 ? SB.red : SB.green }}>{d.delta > 0 ? "▲" : "▼"} {Math.abs(d.pct).toFixed(0)}%</span>
                   </div>
                 </div>
               ))}
@@ -1122,11 +1181,11 @@ function Trends({ fCards, fBank, unifiedExpenses, activeMonths }: any) {
           ) : (
             <div className="space-y-2">
               {(Array.isArray(compare)?compare:[]).map((c: any) => (
-                <div key={c.cat} className="flex items-center justify-between p-3 rounded-2xl border border-border bg-muted/30 hover:bg-muted transition-colors">
-                  <span className="text-sm font-medium text-foreground flex items-center gap-2"><span className="w-2.5 h-2.5 rounded-full" style={{ background: c.color }} />{c.cat}</span>
-                  <div className="flex items-center gap-3 text-xs">
-                    <span className="font-mono text-muted-foreground">{fmtBRL(c.fv)} → {fmtBRL(c.lv)}</span>
-                    {c.fv > 0 && <BeaUI.Badge variant={c.delta > 0 ? "destructive" : "success"}>{c.delta > 0 ? "▲" : "▼"} {Math.abs(c.pct).toFixed(0)}%</BeaUI.Badge>}
+                <div key={c.cat} className="flex items-center justify-between" style={{ padding: "13px 14px", borderRadius: 8, border: `1px solid ${SB.row}`, background: "#fcfcfa" }}>
+                  <span style={{ font: "500 14px 'IBM Plex Sans'", color: SB.ink, display: "flex", alignItems: "center", gap: 8 }}><span style={{ width: 8, height: 8, borderRadius: 2, background: c.color }} />{c.cat}</span>
+                  <div className="flex items-center gap-3" style={{ fontSize: 12 }}>
+                    <span className="font-mono" style={{ color: SB.muted }}>{fmtBRL(c.fv)} → {fmtBRL(c.lv)}</span>
+                    {c.fv > 0 && <span className="font-mono" style={{ fontWeight: 500, color: c.delta > 0 ? SB.red : SB.green }}>{c.delta > 0 ? "▲" : "▼"} {Math.abs(c.pct).toFixed(0)}%</span>}
                   </div>
                 </div>
               ))}
@@ -1140,7 +1199,6 @@ function Trends({ fCards, fBank, unifiedExpenses, activeMonths }: any) {
 
 // ============================ INSIGHTS (automáticos) ============================
 function Insights({ fCards, fBank, unifiedExpenses, cardInsights, bankInsights, saldos, nMonths, activeMonths, budgets }: any) {
-  // parse seguro de data local (evita shift de timezone do new Date("YYYY-MM-DD"))
   const parseLocal = (s: string) => { const [y, m, d] = (s || "").split("-").map(Number); return new Date(y || 2000, (m || 1) - 1, d || 1); };
 
   const exp = Array.isArray(unifiedExpenses) ? unifiedExpenses : [];
@@ -1148,31 +1206,25 @@ function Insights({ fCards, fBank, unifiedExpenses, cardInsights, bankInsights, 
 
   if (exp.length === 0) {
     return (
-      <div className="rounded-2xl border border-border bg-card p-8 sm:p-12 shadow-sm">
+      <div style={{ background: SB.card, border: `1px solid ${SB.border}`, borderRadius: 10, padding: "48px 36px" }}>
         <BeaUI.EmptyState icon={<BeaUI.Icon name="lightbulb" size={48} />} title="Sem dados no período" description="Ajuste o filtro de período ou importe PDFs para ver insights." />
       </div>
     );
   }
 
-  // maior transação única
   const biggest = (Array.isArray(exp)?exp:[]).reduce((mx: any, r: any) => (!mx || r.amount > mx.amount ? r : mx), null);
-
-  // ticket médio
   const ticket = totalExp / exp.length;
 
-  // por categoria
   const byCat: Record<string, number> = {};
   (Array.isArray(exp)?exp:[]).forEach((r: any) => { byCat[r.category] = (byCat[r.category] || 0) + r.amount; });
   const byCatArr = Object.entries(byCat).sort((a: any, b: any) => (b[1] as number) - (a[1] as number));
   const top3 = byCatArr.slice(0, 3).reduce((s, [, v]: any) => s + v, 0);
   const concentration = totalExp > 0 ? (top3 / totalExp) * 100 : 0;
 
-  // dia mais caro
   const byDay: Record<string, number> = {};
   (Array.isArray(exp)?exp:[]).forEach((r: any) => { byDay[r.date] = (byDay[r.date] || 0) + r.amount; });
   const topDay = Object.entries(byDay).sort((a: any, b: any) => (b[1] as number) - (a[1] as number))[0] || null;
 
-  // gasto por dia da semana
   const DOW = ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sáb"];
   const byDow = [0, 0, 0, 0, 0, 0, 0];
   (Array.isArray(exp)?exp:[]).forEach((r: any) => { byDow[parseLocal(r.date).getDay()] += r.amount; });
@@ -1180,30 +1232,23 @@ function Insights({ fCards, fBank, unifiedExpenses, cardInsights, bankInsights, 
   const weekend = byDow[0] + byDow[6];
   const weekendPct = totalExp > 0 ? (weekend / totalExp) * 100 : 0;
 
-  // assinaturas (custo recorrente mensal e projeção anual)
   const assinaturas = (Array.isArray(fCards)?fCards:[]).filter((t: any) => t.category === "Assinaturas").reduce((s: number, t: any) => s + t.amount, 0);
   const assinaturasMensal = assinaturas / nMonths;
 
-  // parcelas a vencer (estimativa de compromisso futuro)
   let parcelasFuturas = 0, qtdParcelas = 0;
   (Array.isArray(fCards)?fCards:[]).forEach((t: any) => {
     if (t.installment) { const [a, b] = String(t.installment).split("/").map(Number); if (a && b && b > a) { parcelasFuturas += t.amount * (b - a); qtdParcelas++; } }
   });
 
-  // projeção anual de despesas
   const projAnual = (totalExp / nMonths) * 12;
-
-  // renda e taxa de poupança
   const renda = (Array.isArray(fBank)?fBank:[]).filter((t: any) => t.category === "PIX recebido: Renda").reduce((s: number, t: any) => s + t.amount, 0);
   const savingsRate = renda > 0 ? ((renda - totalExp) / renda) * 100 : 0;
 
-  // top estabelecimento/contraparte
   const byLabel: Record<string, number> = {};
   (Array.isArray(exp)?exp:[]).forEach((r: any) => { byLabel[r.label] = (byLabel[r.label] || 0) + r.amount; });
   const topLabel = Object.entries(byLabel).sort((a: any, b: any) => (b[1] as number) - (a[1] as number))[0] || null;
   const topLabelShare = topLabel && totalExp > 0 ? ((topLabel[1] as number) / totalExp) * 100 : 0;
 
-  // categoria que mais cresceu (último vs penúltimo mês)
   const monthsArr = [...activeMonths].sort() as string[];
   let grower: any = null, shrinker: any = null;
   if (monthsArr.length >= 2) {
@@ -1217,47 +1262,50 @@ function Insights({ fCards, fBank, unifiedExpenses, cardInsights, bankInsights, 
     shrinker = (Array.isArray(diffs)?diffs:[]).filter(d => d.delta < 0).sort((a, b) => a.delta - b.delta)[0] || null;
   }
 
-  return (
-    <div className="space-y-6">
-      <BeaUI.StatsGrid>
-        <StatCard label="Maior gasto único" value={biggest ? fmtBRL(biggest.amount) : "—"} icon={<BeaUI.Icon name="flame" />} accent="destructive" hint={biggest ? biggest.label : ""} />
-        <StatCard label="Ticket médio" value={fmtBRL(ticket)} icon={<BeaUI.Icon name="receipt" />} accent="primary" hint={`${exp.length} lançamentos`} />
-        <StatCard label="Concentração top 3" value={`${concentration.toFixed(0)}%`} icon={<BeaUI.Icon name="pie-chart" />} accent="warning" hint={byCatArr.slice(0, 3).map(([k]) => k).join(", ")} />
-        <StatCard label="Projeção anual" value={fmtBRL(projAnual)} icon={<BeaUI.Icon name="trending-up" />} accent="neutral" hint={`Base ${fmtBRL(totalExp / nMonths)}/mês`} />
-      </BeaUI.StatsGrid>
+  // Cartões de insight no estilo sóbrio (ícone + título serifado + texto)
+  const insightCards: any[] = [];
+  const pushIns = (icon: string, color: string, title: string, body: any) => insightCards.push({ icon, color, title, body });
+  if (biggest) pushIns("flame", SB.red, "Maior despesa do período", <>{fmtBRL(biggest.amount)} em <strong style={{ color: SB.ink }}>{biggest.label}</strong> ({biggest.category}) no dia {parseLocal(biggest.date).toLocaleDateString("pt-BR")}.</>);
+  pushIns("pie-chart", SB.accent, "Concentração de gastos", <>{concentration.toFixed(0)}% de tudo está em apenas 3 categorias: {byCatArr.slice(0, 3).map(([k, v]: any) => `${k} ${fmtBRL(v)}`).join(" · ")}.</>);
+  pushIns("calendar", SB.side, "Padrão semanal", <>{DOW[maxDow] === "Sáb" || DOW[maxDow] === "Dom" ? "O fim de semana" : DOW[maxDow]} é o dia de maior gasto. {weekendPct.toFixed(0)}% do total acontece nos finais de semana ({fmtBRL(weekend)}).</>);
+  if (assinaturasMensal > 0) pushIns("repeat", SB.accent, "Assinaturas recorrentes", <>~{fmtBRL(assinaturasMensal)}/mês em serviços recorrentes — isso dá <strong style={{ color: SB.ink }}>{fmtBRL(assinaturasMensal * 12)}</strong> por ano. Vale revisar o que ainda usa.</>);
+  if (parcelasFuturas > 0) pushIns("hourglass", SB.side, "Compromisso futuro", <>Estimativa de <strong style={{ color: SB.ink }}>{fmtBRL(parcelasFuturas)}</strong> ainda a vencer em {qtdParcelas} compras parceladas.</>);
+  if (topLabel) pushIns("store", SB.green, "Maior recebedor", <><strong style={{ color: SB.ink }}>{topLabel[0]}</strong> concentra {fmtBRL(topLabel[1] as number)} ({topLabelShare.toFixed(0)}% das despesas) no período.</>);
+  if (grower && grower.delta > 0) pushIns("trending-up", SB.red, "Maior alta recente", <><strong style={{ color: SB.ink }}>{grower.cat}</strong> subiu {fmtBRL(grower.delta)} ({grower.pv > 0 ? `+${grower.pct.toFixed(0)}%` : "novo"}) do mês anterior para o último mês.</>);
+  if (shrinker && shrinker.delta < 0) pushIns("trending-down", SB.green, "Maior queda recente", <><strong style={{ color: SB.ink }}>{shrinker.cat}</strong> caiu {fmtBRL(Math.abs(shrinker.delta))} ({shrinker.pct.toFixed(0)}%) no último mês — bom trabalho.</>);
+  if (renda > 0) pushIns("piggy-bank", savingsRate >= 0 ? SB.green : SB.red, "Saúde financeira", <>Você {savingsRate >= 0 ? "guardou" : "gastou além da renda em"} {Math.abs(savingsRate).toFixed(0)}% da renda ({fmtBRL(renda - totalExp)} de diferença entre {fmtBRL(renda)} de renda e {fmtBRL(totalExp)} de despesas).</>);
 
-      <BeaUI.StatsGrid>
-        <StatCard label="Assinaturas/mês" value={fmtBRL(assinaturasMensal)} icon={<BeaUI.Icon name="repeat" />} accent="primary" hint={`~${fmtBRL(assinaturasMensal * 12)}/ano`} />
-        <StatCard label="Parcelas a vencer" value={fmtBRL(parcelasFuturas)} icon={<BeaUI.Icon name="hourglass" />} accent="warning" hint={qtdParcelas > 0 ? `${qtdParcelas} compras parceladas` : "Nenhuma detectada"} />
-        <StatCard label="Dia mais caro" value={topDay ? fmtBRL(topDay[1] as number) : "—"} icon={<BeaUI.Icon name="calendar-clock" />} accent="destructive" hint={topDay ? parseLocal(topDay[0]).toLocaleDateString("pt-BR") : ""} />
-        <StatCard label="Taxa de poupança" value={renda > 0 ? `${savingsRate.toFixed(0)}%` : "—"} icon={<BeaUI.Icon name="piggy-bank" />} accent={savingsRate >= 0 ? "success" : "destructive"} hint={renda > 0 ? `Renda ${fmtBRL(renda)}` : "Sem renda no período"} />
-      </BeaUI.StatsGrid>
+  return (
+    <div className="space-y-4">
+      <StatGroup>
+        <StatCard label="Maior gasto único" value={biggest ? fmtBRL(biggest.amount) : "—"} accent="destructive" hint={biggest ? biggest.label : ""} />
+        <StatCard label="Ticket médio" value={fmtBRL(ticket)} accent="neutral" hint={`${exp.length} lançamentos`} />
+        <StatCard label="Concentração top 3" value={`${concentration.toFixed(0)}%`} accent="warning" hint={byCatArr.slice(0, 3).map(([k]) => k).join(", ")} />
+        <StatCard label="Projeção anual" value={fmtBRL(projAnual)} accent="neutral" hint={`Base ${fmtBRL(totalExp / nMonths)}/mês`} />
+      </StatGroup>
+
+      <StatGroup>
+        <StatCard label="Assinaturas/mês" value={fmtBRL(assinaturasMensal)} accent="primary" hint={`~${fmtBRL(assinaturasMensal * 12)}/ano`} />
+        <StatCard label="Parcelas a vencer" value={fmtBRL(parcelasFuturas)} accent="warning" hint={qtdParcelas > 0 ? `${qtdParcelas} compras parceladas` : "Nenhuma detectada"} />
+        <StatCard label="Dia mais caro" value={topDay ? fmtBRL(topDay[1] as number) : "—"} accent="destructive" hint={topDay ? parseLocal(topDay[0]).toLocaleDateString("pt-BR") : ""} />
+        <StatCard label="Taxa de poupança" value={renda > 0 ? `${savingsRate.toFixed(0)}%` : "—"} accent={savingsRate >= 0 ? "success" : "destructive"} hint={renda > 0 ? `Renda ${fmtBRL(renda)}` : "Sem renda no período"} />
+      </StatGroup>
 
       <Panel title="Gasto por dia da semana" description="Em que dias você mais gasta">
-        <div className="h-64"><BeaUI.BarChart data={{ labels: DOW, datasets: [{ label: "Gasto", data: byDow, backgroundColor: (Array.isArray(DOW)?DOW:[]).map((_, i) => i === maxDow ? "hsl(0 84% 60%)" : "hsl(217 91% 60%)") }] }} options={{ plugins: { legend: { display: false } } } as any} /></div>
+        <div className="h-64"><BeaUI.BarChart data={{ labels: DOW, datasets: [{ label: "Gasto", data: byDow, backgroundColor: (Array.isArray(DOW)?DOW:[]).map((_, i) => i === maxDow ? SB.red : SB.side) }] }} options={{ plugins: { legend: { display: false } } } as any} /></div>
       </Panel>
 
-      <Panel title="Destaques automáticos" description="O que mais chama atenção no período">
-        <div className="space-y-3">
-          {biggest && <BeaUI.Banner variant="warning" icon={<BeaUI.Icon name="flame" size={16} />}><strong>Maior despesa:</strong> {fmtBRL(biggest.amount)} em <strong>{biggest.label}</strong> ({biggest.category}) no dia {parseLocal(biggest.date).toLocaleDateString("pt-BR")}.</BeaUI.Banner>}
-
-          <BeaUI.Banner variant="info" icon={<BeaUI.Icon name="pie-chart" size={16} />}><strong>Concentração:</strong> {concentration.toFixed(0)}% de tudo que você gasta está em apenas 3 categorias ({byCatArr.slice(0, 3).map(([k, v]: any) => `${k} ${fmtBRL(v)}`).join(" · ")}).</BeaUI.Banner>
-
-          <BeaUI.Banner variant="info" icon={<BeaUI.Icon name="calendar" size={16} />}><strong>Padrão semanal:</strong> {DOW[maxDow] === "Sáb" || DOW[maxDow] === "Dom" ? "fim de semana" : DOW[maxDow]} é o dia de maior gasto. {weekendPct.toFixed(0)}% do total acontece nos finais de semana ({fmtBRL(weekend)}).</BeaUI.Banner>
-
-          {assinaturasMensal > 0 && <BeaUI.Banner variant="warning" icon={<BeaUI.Icon name="repeat" size={16} />}><strong>Assinaturas:</strong> ~{fmtBRL(assinaturasMensal)}/mês em serviços recorrentes — isso dá <strong>{fmtBRL(assinaturasMensal * 12)}</strong> por ano. Vale revisar o que ainda usa.</BeaUI.Banner>}
-
-          {parcelasFuturas > 0 && <BeaUI.Banner variant="info" icon={<BeaUI.Icon name="hourglass" size={16} />}><strong>Compromisso futuro:</strong> estimativa de <strong>{fmtBRL(parcelasFuturas)}</strong> ainda a vencer em {qtdParcelas} compras parceladas (parcelas restantes × valor da parcela).</BeaUI.Banner>}
-
-          {topLabel && <BeaUI.Banner variant="success" icon={<BeaUI.Icon name="store" size={16} />}><strong>Maior recebedor:</strong> <strong>{topLabel[0]}</strong> concentra {fmtBRL(topLabel[1] as number)} ({topLabelShare.toFixed(0)}% das despesas) no período.</BeaUI.Banner>}
-
-          {grower && grower.delta > 0 && <BeaUI.Banner variant="warning" icon={<BeaUI.Icon name="arrow-up-right" size={16} />}><strong>Maior alta recente:</strong> <strong>{grower.cat}</strong> subiu {fmtBRL(grower.delta)} ({grower.pv > 0 ? `+${grower.pct.toFixed(0)}%` : "novo"}) do mês anterior para o último mês.</BeaUI.Banner>}
-
-          {shrinker && shrinker.delta < 0 && <BeaUI.Banner variant="success" icon={<BeaUI.Icon name="arrow-down-right" size={16} />}><strong>Maior queda recente:</strong> <strong>{shrinker.cat}</strong> caiu {fmtBRL(Math.abs(shrinker.delta))} ({shrinker.pct.toFixed(0)}%) no último mês — bom trabalho.</BeaUI.Banner>}
-
-          {renda > 0 && <BeaUI.Banner variant={savingsRate >= 0 ? "success" : "destructive"} icon={<BeaUI.Icon name="piggy-bank" size={16} />}><strong>Saúde financeira:</strong> você {savingsRate >= 0 ? "guardou" : "gastou além da renda em"} {Math.abs(savingsRate).toFixed(0)}% da renda no período ({fmtBRL(renda - totalExp)} de diferença entre {fmtBRL(renda)} de renda e {fmtBRL(totalExp)} de despesas).</BeaUI.Banner>}
-        </div>
-      </Panel>
+      <section className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+        {(Array.isArray(insightCards)?insightCards:[]).map((ins: any, i: number) => (
+          <div key={i} style={{ background: SB.card, border: `1px solid ${SB.border}`, borderRadius: 10, padding: "22px 24px", display: "flex", gap: 16 }}>
+            <div style={{ width: 40, height: 40, borderRadius: 8, background: SB.bg, display: "flex", alignItems: "center", justifyContent: "center", flex: "none", color: ins.color }}><BeaUI.Icon name={ins.icon} size={18} /></div>
+            <div style={{ minWidth: 0 }}>
+              <div className="fin-serif" style={{ fontSize: 17, fontWeight: 500, color: SB.ink, marginBottom: 6 }}>{ins.title}</div>
+              <div style={{ font: "400 13.5px/1.5 'IBM Plex Sans'", color: SB.chip }}>{ins.body}</div>
+            </div>
+          </div>
+        ))}
+      </section>
     </div>
   );
 }
@@ -1270,7 +1318,7 @@ function Budgets({ unifiedExpenses, budgets, nMonths, activeMonths, canEdit, onE
 
   if (budgetEntries.length === 0) {
     return (
-      <div className="rounded-2xl border border-border bg-card p-8 sm:p-12 shadow-sm">
+      <div style={{ background: SB.card, border: `1px solid ${SB.border}`, borderRadius: 10, padding: "48px 36px" }}>
         <BeaUI.EmptyStateIllustrated illustration="empty" title="Nenhum orçamento definido"
           description="Defina limites mensais por categoria para acompanhar se está dentro do planejado. As barras vão mostrar o realizado vs o orçado."
           action={canEdit ? <button onClick={onEdit} className={BTN_PRIMARY}><BeaUI.Icon name="target" size={14} /> Definir orçamentos</button> : null} />
@@ -1290,38 +1338,32 @@ function Budgets({ unifiedExpenses, budgets, nMonths, activeMonths, canEdit, onE
   const overCount = (Array.isArray(rows)?rows:[]).filter(r => r.over).length;
 
   return (
-    <div className="space-y-6">
-      <BeaUI.StatsGrid>
-        <StatCard label="Orçamento mensal total" value={fmtBRL(totalBudget)} icon={<BeaUI.Icon name="target" />} accent="primary" />
-        <StatCard label="Realizado/mês (média)" value={fmtBRL(totalSpentMonthly)} icon={<BeaUI.Icon name="banknote" />} accent={totalSpentMonthly > totalBudget ? "destructive" : "success"} hint={totalBudget > 0 ? `${((totalSpentMonthly / totalBudget) * 100).toFixed(0)}% do orçado` : ""} />
-        <StatCard label="Sobra/Estouro" value={fmtBRL(totalBudget - totalSpentMonthly)} icon={<BeaUI.Icon name="scale" />} accent={totalBudget - totalSpentMonthly >= 0 ? "success" : "destructive"} />
-        <StatCard label="Categorias estouradas" value={`${overCount}/${rows.length}`} icon={<BeaUI.Icon name="alert-triangle" />} accent={overCount > 0 ? "destructive" : "success"} />
-      </BeaUI.StatsGrid>
+    <div className="space-y-4">
+      <StatGroup>
+        <StatCard label="Orçado (mês)" value={fmtBRL(totalBudget)} accent="primary" />
+        <StatCard label="Realizado (mês)" value={fmtBRL(totalSpentMonthly)} accent={totalSpentMonthly > totalBudget ? "destructive" : "success"} hint={totalBudget > 0 ? `${((totalSpentMonthly / totalBudget) * 100).toFixed(0)}% do orçado` : ""} />
+        <StatCard label="Disponível" value={fmtBRL(totalBudget - totalSpentMonthly)} accent={totalBudget - totalSpentMonthly >= 0 ? "success" : "destructive"} />
+        <StatCard label="Categorias estouradas" value={`${overCount}/${rows.length}`} accent={overCount > 0 ? "destructive" : "success"} />
+      </StatGroup>
 
-      <div className="flex justify-between items-center">
-        <p className="text-sm text-muted-foreground">Comparativo realizado (média mensal) vs orçado por categoria.</p>
-        {canEdit && <BeaUI.Button variant="outline" size="sm" onClick={onEdit}><BeaUI.Icon name="pencil" size={14} /> Editar orçamentos</BeaUI.Button>}
-      </div>
-
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        {(Array.isArray(rows)?rows:[]).map((r: any) => (
-          <div key={r.cat} className="fin-card-hover rounded-2xl border border-border bg-card p-4 space-y-3 shadow-sm hover:shadow-md">
-            <div className="flex items-center justify-between">
-              <span className="font-semibold text-foreground flex items-center gap-2"><span className="w-3 h-3 rounded-full" style={{ background: r.color }} />{r.cat}</span>
-              <BeaUI.Badge variant={r.over ? "destructive" : r.pct > 80 ? "warning" : "success"}>{r.pct.toFixed(0)}%</BeaUI.Badge>
+      <Panel title="Limites por categoria" description="Realizado (média mensal) vs orçado"
+        action={canEdit ? <button onClick={onEdit} className={BTN_PRIMARY} style={{ height: 36, padding: "0 14px" }}><BeaUI.Icon name="pencil" size={14} /> Editar</button> : null}>
+        <div>
+          {(Array.isArray(rows)?rows:[]).map((r: any, i: number) => (
+            <div key={r.cat} style={{ padding: "18px 0", borderBottom: i < rows.length - 1 ? `1px solid ${SB.row}` : "none" }}>
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: 9 }}>
+                <span style={{ font: "500 15px 'IBM Plex Sans'", color: SB.ink, display: "flex", alignItems: "center", gap: 9 }}><span style={{ width: 9, height: 9, borderRadius: 2, background: r.color }} />{r.cat}</span>
+                <span className="font-mono" style={{ fontSize: 13, color: r.over ? SB.red : SB.chip }}>{fmtBRL(r.spentMonthly)} / {fmtBRL(r.bud)} <span style={{ fontWeight: 500, color: r.over ? SB.red : SB.faint }}>{r.pct.toFixed(0)}%</span></span>
+              </div>
+              <div style={{ height: 8, background: SB.bInner, borderRadius: 5, overflow: "hidden" }}>
+                <div style={{ width: `${Math.min(r.pct, 100)}%`, height: "100%", background: r.over ? SB.red : r.pct > 80 ? "#a8743a" : r.color }} />
+              </div>
+              {r.over ? <div style={{ font: "400 12px 'IBM Plex Sans'", color: SB.red, marginTop: 7 }}>Estourou o limite em {fmtBRL(r.spentMonthly - r.bud)}/mês</div>
+                : <div style={{ font: "400 12px 'IBM Plex Sans'", color: SB.green, marginTop: 7 }}>Folga de {fmtBRL(r.bud - r.spentMonthly)}/mês</div>}
             </div>
-            <div className="h-3 rounded-full bg-muted overflow-hidden">
-              <div className="h-full rounded-full transition-all" style={{ width: `${Math.min(r.pct, 100)}%`, background: r.over ? "hsl(0 84% 60%)" : r.pct > 80 ? "hsl(38 92% 50%)" : r.color }} />
-            </div>
-            <div className="flex items-center justify-between text-sm">
-              <span className="text-muted-foreground">Realizado: <strong className="text-foreground font-mono">{fmtBRL(r.spentMonthly)}</strong>/mês</span>
-              <span className="text-muted-foreground">Orçado: <strong className="text-foreground font-mono">{fmtBRL(r.bud)}</strong></span>
-            </div>
-            {r.over && <p className="text-xs text-destructive">⚠️ Estourou {fmtBRL(r.spentMonthly - r.bud)}/mês</p>}
-            {!r.over && <p className="text-xs text-emerald-600">✓ Folga de {fmtBRL(r.bud - r.spentMonthly)}/mês</p>}
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
+      </Panel>
     </div>
   );
 }
@@ -1330,7 +1372,6 @@ function BudgetEditor({ open, onClose, cats, budgets, onSave }: any) {
   const [local, setLocal] = useState<Record<string, string>>(() => {
     const init: Record<string, string> = {};
     (Array.isArray(cats)?cats:[]).forEach((c: string) => { init[c] = budgets[c] != null ? String(budgets[c]) : ""; });
-    // inclui categorias que já têm orçamento mesmo se não aparecem mais nas despesas
     Object.keys(budgets || {}).forEach(c => { if (init[c] === undefined) init[c] = String(budgets[c]); });
     return init;
   });
@@ -1355,11 +1396,11 @@ function BudgetEditor({ open, onClose, cats, budgets, onSave }: any) {
         ) : (
           <div className="max-h-96 overflow-y-auto space-y-2 pr-1">
             {(Array.isArray(allCats)?allCats:[]).map((cat: string, i: number) => (
-              <div key={cat} className="flex items-center gap-3 p-2 rounded-2xl border border-border bg-muted/30">
-                <span className="flex-1 text-sm font-medium text-foreground flex items-center gap-2 min-w-0"><span className="w-2.5 h-2.5 rounded-full shrink-0" style={{ background: catColor(cat, i) }} /><span className="truncate">{cat}</span></span>
+              <div key={cat} className="flex items-center gap-3 p-2 rounded-lg border border-border bg-muted/30">
+                <span className="flex-1 text-sm font-medium text-foreground flex items-center gap-2 min-w-0"><span className="w-2.5 h-2.5 rounded-sm shrink-0" style={{ background: catColor(cat, i) }} /><span className="truncate">{cat}</span></span>
                 <div className="flex items-center gap-1 shrink-0">
                   <span className="text-xs text-muted-foreground">R$</span>
-                  <input type="number" inputMode="decimal" min="0" step="50" placeholder="0" value={local[cat] || ""} onChange={e => setLocal({ ...local, [cat]: e.target.value })} className="w-28 h-9 px-3 rounded-full border border-input bg-background text-sm text-foreground text-right font-mono focus:outline-none focus:ring-2 focus:ring-ring" />
+                  <input type="number" inputMode="decimal" min="0" step="50" placeholder="0" value={local[cat] || ""} onChange={e => setLocal({ ...local, [cat]: e.target.value })} className="w-28 h-9 px-3 rounded-lg border border-input bg-background text-sm text-foreground text-right font-mono focus:outline-none focus:ring-2 focus:ring-ring" />
                   <span className="text-xs text-muted-foreground">/mês</span>
                 </div>
               </div>
@@ -1395,52 +1436,83 @@ function Cards({ fCards, cardInsights, nMonths, activeMonths, canEdit, openRecla
   const byMerchant: Record<string, number> = {};
   (Array.isArray(filtered)?filtered:[]).forEach((t: any) => { byMerchant[t.merchant] = (byMerchant[t.merchant] || 0) + t.amount; });
   const topMerch = Object.entries(byMerchant).sort((a, b) => (b[1] as number) - (a[1] as number)).slice(0, 15);
+
+  const cardMeta: [string, string][] = [["Elo", SB.accent], ["Master", SB.side]];
   return (
-    <div className="space-y-6">
-      <BeaUI.StatsGrid>
-        <StatCard label="Total no período" value={fmtBRL(total)} icon={<BeaUI.Icon name="credit-card" />} accent="primary" hint={`${filtered.length} transações`} />
-        <StatCard label="Média mensal" value={fmtBRL(total / nMonths)} icon={<BeaUI.Icon name="calendar" />} accent="primary" />
-        <StatCard label="Elo" value={fmtBRL(elo)} icon={<BeaUI.Icon name="circle" />} accent="warning" hint={total > 0 ? `${((elo / total) * 100).toFixed(0)}%` : ""} />
-        <StatCard label="Master" value={fmtBRL(master)} icon={<BeaUI.Icon name="circle" />} accent="destructive" hint={total > 0 ? `${((master / total) * 100).toFixed(0)}%` : ""} />
-      </BeaUI.StatsGrid>
-      <div className="rounded-2xl border border-border bg-card p-4 flex flex-wrap gap-3 items-center shadow-sm">
-        <span className="text-[11px] uppercase tracking-wide font-semibold text-muted-foreground">Filtros</span>
+    <div className="space-y-4">
+      <StatGroup>
+        <StatCard label="Total no período" value={fmtBRL(total)} accent="primary" hint={`${filtered.length} transações`} />
+        <StatCard label="Média mensal" value={fmtBRL(total / nMonths)} accent="neutral" />
+        <StatCard label="Elo" value={fmtBRL(elo)} accent="warning" hint={total > 0 ? `${((elo / total) * 100).toFixed(0)}%` : ""} />
+        <StatCard label="Master" value={fmtBRL(master)} accent="neutral" hint={total > 0 ? `${((master / total) * 100).toFixed(0)}%` : ""} />
+      </StatGroup>
+
+      <section className="flex flex-col sm:flex-row gap-4">
+        {(Array.isArray(cardMeta)?cardMeta:[]).map(([nm, col]) => {
+          const tot = nm === "Elo" ? elo : master;
+          return (
+            <div key={nm} style={{ flex: 1, background: "linear-gradient(135deg,#243652 0%,#1c2b46 100%)", borderRadius: 12, padding: "24px 26px", color: "#fff", position: "relative", overflow: "hidden" }}>
+              <div style={{ position: "absolute", right: -30, top: -30, width: 120, height: 120, borderRadius: "50%", background: "rgba(255,255,255,.05)" }} />
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                <span className="fin-serif" style={{ fontSize: 17, color: "#fff" }}>Cartão {nm}</span>
+                <BeaUI.Icon name="credit-card" size={18} className="text-white" />
+              </div>
+              <div style={{ font: "400 11px 'IBM Plex Sans'", letterSpacing: ".07em", color: SB.navMute, textTransform: "uppercase", margin: "26px 0 8px" }}>Gasto no período</div>
+              <div className="font-mono" style={{ fontSize: 26, fontWeight: 500, color: "#fff" }}>{fmtBRL(tot)}</div>
+              <div style={{ height: 6, background: "rgba(255,255,255,.12)", borderRadius: 4, overflow: "hidden", margin: "16px 0 8px" }}>
+                <div style={{ width: `${total > 0 ? Math.round((tot / total) * 100) : 0}%`, height: "100%", background: col }} />
+              </div>
+              <div style={{ display: "flex", justifyContent: "space-between", font: "400 12px 'IBM Plex Sans'", color: SB.navIdle }}>
+                <span>{total > 0 ? Math.round((tot / total) * 100) : 0}% do total</span>
+                <span className="font-mono">{fmtBRL(tot / nMonths)}/mês</span>
+              </div>
+            </div>
+          );
+        })}
+      </section>
+
+      <div style={{ display: "flex", flexWrap: "wrap", gap: 12, alignItems: "center", background: SB.card, border: `1px solid ${SB.border}`, borderRadius: 10, padding: "14px 18px" }}>
+        <span style={{ font: "500 10.5px 'IBM Plex Sans'", letterSpacing: ".07em", color: SB.faint, textTransform: "uppercase" }}>Filtros</span>
         <PillSel label="Cartão" value={fc} onChange={setFc} options={[{ value: "all", label: "Todos" }, ...cardsSet.map(c => ({ value: c, label: c }))]} />
         <PillSel label="Pessoa" value={fh} onChange={setFh} options={[{ value: "all", label: "Todas" }, ...holders.map(h => ({ value: h, label: h }))]} />
         <PillSel label="Categoria" value={fcat} onChange={setFcat} options={[{ value: "all", label: "Todas" }, ...categories.map(c => ({ value: c, label: c }))]} />
       </div>
+
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
         <Panel title="Gasto mensal por cartão">
-          <div className="h-72"><BeaUI.BarChart data={{ labels: (Array.isArray(monthsArr)?monthsArr:[]).map(monthLabel), datasets: (Array.isArray(cardsSet)?cardsSet:[]).map((c) => ({ label: c, data: monthlyByCard[c], backgroundColor: c === "Elo" ? "hsl(38 92% 50%)" : c === "Master" ? "hsl(0 84% 60%)" : "hsl(217 91% 60%)" })) }} options={{ scales: { x: { stacked: true }, y: { stacked: true } } } as any} /></div>
+          <div className="h-72"><BeaUI.BarChart data={{ labels: (Array.isArray(monthsArr)?monthsArr:[]).map(monthLabel), datasets: (Array.isArray(cardsSet)?cardsSet:[]).map((c) => ({ label: c, data: monthlyByCard[c], backgroundColor: c === "Elo" ? SB.accent : c === "Master" ? SB.side : "#3a5a8c" })) }} options={{ scales: { x: { stacked: true }, y: { stacked: true } } } as any} /></div>
         </Panel>
         <Panel title="Distribuição por categoria">
           <div className="h-72 flex items-center justify-center"><BeaUI.DonutChart data={byCatArr.slice(0, 10).map(([label, value]: any, i: number) => ({ label, value, color: catColor(label, i) }))} centerLabel="Total" centerValue={fmtBRL(total).replace("R$", "").trim()} height={240} /></div>
         </Panel>
       </div>
+
       <Panel title="Top 15 estabelecimentos">
-        <div className="h-96"><BeaUI.BarChart data={{ labels: (Array.isArray(topMerch)?topMerch:[]).map(([m]) => m.length > 30 ? m.slice(0, 30) + "…" : m), datasets: [{ label: "Total", data: (Array.isArray(topMerch)?topMerch:[]).map(([, v]) => v), backgroundColor: "hsl(217 91% 60%)" }] }} options={{ indexAxis: "y" as any, plugins: { legend: { display: false } } } as any} /></div>
+        <div className="h-96"><BeaUI.BarChart data={{ labels: (Array.isArray(topMerch)?topMerch:[]).map(([m]) => m.length > 30 ? m.slice(0, 30) + "…" : m), datasets: [{ label: "Total", data: (Array.isArray(topMerch)?topMerch:[]).map(([, v]) => v), backgroundColor: SB.side }] }} options={{ indexAxis: "y" as any, plugins: { legend: { display: false } } } as any} /></div>
       </Panel>
+
       {cardInsights.recurring.length > 0 && (
         <Panel title="Recorrências detectadas" description="3+ meses">
           <BeaUI.DataTable data={cardInsights.recurring} pageSize={10} columns={[
-            { key: "merchant", header: "Estabelecimento", render: (v: any, r: any) => (<div className="flex items-center gap-2"><span className="font-medium">{v}</span>{canEdit && <button onClick={() => openReclassify(`card:${r.merchant}`, r.merchant, "(múltiplas)", null)} className="text-xs text-primary hover:underline">Reclassificar</button>}</div>) },
+            { key: "merchant", header: "Estabelecimento", render: (v: any, r: any) => (<div className="flex items-center gap-2"><span style={{ fontWeight: 500, color: SB.ink }}>{v}</span>{canEdit && <button onClick={() => openReclassify(`card:${r.merchant}`, r.merchant, "(múltiplas)", null)} className="text-xs text-primary hover:underline">Reclassificar</button>}</div>) },
             { key: "months", header: "Meses", className: "text-right" },
             { key: "avg", header: "Média/mês", render: (v: number) => <span className="font-mono">{fmtBRL(v)}</span>, className: "text-right" },
             { key: "total", header: "Total", render: (v: number) => <span className="font-mono">{fmtBRL(v)}</span>, className: "text-right" },
-            { key: "avg", header: "Projeção anual", render: (v: number) => <span className="font-mono text-muted-foreground">{fmtBRL(v * 12)}</span>, className: "text-right" },
+            { key: "avg", header: "Projeção anual", render: (v: number) => <span className="font-mono" style={{ color: SB.muted }}>{fmtBRL(v * 12)}</span>, className: "text-right" },
           ]} emptyMessage="Nenhuma recorrência" />
         </Panel>
       )}
+
       <Panel title="Transações">
         <BeaUI.DataTable data={filtered} searchable pageSize={25} columns={[
-          { key: "date", header: "Data", render: (v: any) => <span className="font-mono text-xs">{new Date(v).toLocaleDateString("pt-BR")}</span> },
-          { key: "card", header: "Cartão", render: (v: string) => <BeaUI.Badge variant={v === "Elo" ? "warning" : "destructive"}>{v}</BeaUI.Badge> },
-          { key: "holder", header: "Pessoa" },
-          { key: "merchant", header: "Estabelecimento" },
-          { key: "category", header: "Categoria", render: (v: string, r: any) => (<div className="flex items-center gap-1"><span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium" style={{ background: (CAT_COLOR[v] || "hsl(220 13% 50%)") + "22", color: CAT_COLOR[v] || "hsl(220 13% 50%)" }}>{v}</span>{r.orig_category && <span className="text-primary text-xs" title="Reclassificado">●</span>}</div>) },
+          { key: "date", header: "Data", render: (v: any) => <span className="font-mono text-xs" style={{ color: SB.muted }}>{new Date(v).toLocaleDateString("pt-BR")}</span> },
+          { key: "card", header: "Cartão", render: (v: string) => <CatTag cat={v} color={v === "Elo" ? SB.accent : SB.side} /> },
+          { key: "holder", header: "Pessoa", render: (v: any) => <span style={{ color: SB.chip }}>{v}</span> },
+          { key: "merchant", header: "Estabelecimento", render: (v: any) => <span style={{ color: SB.ink }}>{v}</span> },
+          { key: "category", header: "Categoria", render: (v: string, r: any) => (<div className="flex items-center gap-1"><CatTag cat={v} />{r.orig_category && <span style={{ color: SB.accent, fontSize: 12 }} title="Reclassificado">●</span>}</div>) },
           { key: "installment", header: "Parcela", render: (v: any) => v || "" },
-          { key: "amount", header: "Valor", render: (v: number) => <span className="font-mono">{fmtNum(v)}</span>, className: "text-right" },
-          ...(canEdit ? [{ key: "id", header: "", render: (_v: any, r: any) => (<button onClick={() => openReclassify(`card:${r.merchant}`, r.merchant, r.category, r.orig_category)} className="text-xs px-2 py-1 rounded-full border border-border hover:border-primary hover:text-primary hover:bg-primary/5 transition-colors">Reclassificar</button>) }] : [])
+          { key: "amount", header: "Valor", render: (v: number) => <span className="font-mono" style={{ color: SB.ink }}>{fmtNum(v)}</span>, className: "text-right" },
+          ...(canEdit ? [{ key: "id", header: "", render: (_v: any, r: any) => (<button onClick={() => openReclassify(`card:${r.merchant}`, r.merchant, r.category, r.orig_category)} className="text-xs px-2 py-1 rounded-lg border border-border hover:border-primary hover:text-primary transition-colors">Reclassificar</button>) }] : [])
         ]} emptyMessage="Nenhuma transação" />
       </Panel>
     </div>
@@ -1460,38 +1532,42 @@ function Bank({ fBank, bankInsights, saldos, nMonths, canEdit, openReclassify }:
   const netV = (Array.isArray(monthsArr)?monthsArr:[]).map((_, i) => inV[i] - outV[i]);
   const realCats = Object.entries(bankInsights.byCat).filter(([k]: any) => !k.startsWith("PIX recebido") && !k.startsWith("Investimento") && k !== "Transf. própria").sort((a: any, b: any) => b[1] - a[1]);
   return (
-    <div className="space-y-6">
-      <BeaUI.StatsGrid>
-        <StatCard label="Renda recebida" value={fmtBRL(renda)} icon={<BeaUI.Icon name="arrow-down-circle" />} accent="success" />
-        <StatCard label="Despesas reais" value={fmtBRL(despReais)} icon={<BeaUI.Icon name="arrow-up-circle" />} accent="destructive" hint="Excl. investimentos" />
-        <StatCard label="Aportes investimento" value={fmtBRL(invOut)} icon={<BeaUI.Icon name="piggy-bank" />} accent="primary" />
-        <StatCard label="Transf. própria" value={fmtBRL(transfProp)} icon={<BeaUI.Icon name="repeat" />} accent="neutral" />
-      </BeaUI.StatsGrid>
+    <div className="space-y-4">
+      <StatGroup>
+        <StatCard label="Entradas (renda)" value={fmtBRL(renda)} accent="success" />
+        <StatCard label="Despesas reais" value={fmtBRL(despReais)} accent="destructive" hint="Excl. investimentos" />
+        <StatCard label="Aportes investimento" value={fmtBRL(invOut)} accent="primary" />
+        <StatCard label="Transf. própria" value={fmtBRL(transfProp)} accent="neutral" />
+      </StatGroup>
+
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
         <Panel title="Fluxo de caixa mensal">
-          <div className="h-72"><BeaUI.BarChart data={{ labels: (Array.isArray(monthsArr)?monthsArr:[]).map(monthLabel), datasets: [{ label: "Entradas", data: inV, backgroundColor: "hsl(160 84% 39%)" }, { label: "Saídas", data: (Array.isArray(outV)?outV:[]).map((v: number) => -v), backgroundColor: "hsl(0 84% 60%)" }, { label: "Líquido", data: netV, type: "line", borderColor: "hsl(217 91% 60%)", backgroundColor: "hsl(217 91% 60%)", fill: false, tension: 0.3 } as any] }} /></div>
+          <div className="h-72"><BeaUI.BarChart data={{ labels: (Array.isArray(monthsArr)?monthsArr:[]).map(monthLabel), datasets: [{ label: "Entradas", data: inV, backgroundColor: SB.green }, { label: "Saídas", data: (Array.isArray(outV)?outV:[]).map((v: number) => -v), backgroundColor: SB.red }, { label: "Líquido", data: netV, type: "line", borderColor: SB.accent, backgroundColor: SB.accent, fill: false, tension: 0.3 } as any] }} /></div>
         </Panel>
         <Panel title="Distribuição das saídas reais">
           <div className="h-72 flex items-center justify-center"><BeaUI.DonutChart data={realCats.slice(0, 10).map(([label, value]: any, i: number) => ({ label, value, color: catColor(label, i) }))} centerLabel="Despesas" centerValue={fmtBRL(despReais).replace("R$", "").trim()} height={240} /></div>
         </Panel>
       </div>
+
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
         <Panel title="Top destinatários PIX">
-          <div className="h-96"><BeaUI.BarChart data={{ labels: bankInsights.topOut.slice(0, 15).map((o: any) => o.name.length > 25 ? o.name.slice(0, 25) + "…" : o.name), datasets: [{ label: "Total", data: bankInsights.topOut.slice(0, 15).map((o: any) => o.total), backgroundColor: "hsl(0 84% 60%)" }] }} options={{ indexAxis: "y" as any, plugins: { legend: { display: false } } } as any} /></div>
+          <div className="h-96"><BeaUI.BarChart data={{ labels: bankInsights.topOut.slice(0, 15).map((o: any) => o.name.length > 25 ? o.name.slice(0, 25) + "…" : o.name), datasets: [{ label: "Total", data: bankInsights.topOut.slice(0, 15).map((o: any) => o.total), backgroundColor: SB.red }] }} options={{ indexAxis: "y" as any, plugins: { legend: { display: false } } } as any} /></div>
         </Panel>
         <Panel title="Top remetentes">
-          <div className="h-96"><BeaUI.BarChart data={{ labels: bankInsights.topIn.slice(0, 15).map((o: any) => o.name.length > 25 ? o.name.slice(0, 25) + "…" : o.name), datasets: [{ label: "Total", data: bankInsights.topIn.slice(0, 15).map((o: any) => o.total), backgroundColor: "hsl(160 84% 39%)" }] }} options={{ indexAxis: "y" as any, plugins: { legend: { display: false } } } as any} /></div>
+          <div className="h-96"><BeaUI.BarChart data={{ labels: bankInsights.topIn.slice(0, 15).map((o: any) => o.name.length > 25 ? o.name.slice(0, 25) + "…" : o.name), datasets: [{ label: "Total", data: bankInsights.topIn.slice(0, 15).map((o: any) => o.total), backgroundColor: SB.green }] }} options={{ indexAxis: "y" as any, plugins: { legend: { display: false } } } as any} /></div>
         </Panel>
       </div>
+
       {saldos.length > 0 && (
         <Panel title="Saldo Invest Fácil ao longo do tempo">
-          <div className="h-64"><BeaUI.LineChart data={{ labels: (Array.isArray(saldos)?saldos:[]).map((s: any) => new Date(s.date).toLocaleDateString("pt-BR")), datasets: [{ label: "Saldo", data: (Array.isArray(saldos)?saldos:[]).map((s: any) => s.saldo), borderColor: "hsl(217 91% 60%)", backgroundColor: "hsl(217 91% 60% / 0.1)", fill: true, tension: 0.3 } as any] }} /></div>
+          <div className="h-64"><BeaUI.LineChart data={{ labels: (Array.isArray(saldos)?saldos:[]).map((s: any) => new Date(s.date).toLocaleDateString("pt-BR")), datasets: [{ label: "Saldo", data: (Array.isArray(saldos)?saldos:[]).map((s: any) => s.saldo), borderColor: SB.accent, backgroundColor: "rgba(200,112,42,0.10)", fill: true, tension: 0.3 } as any] }} /></div>
         </Panel>
       )}
+
       {bankInsights.topOut.filter((o: any) => o.months >= 3).length > 0 && (
         <Panel title="PIX recorrentes" description="3+ meses">
           <BeaUI.DataTable data={bankInsights.topOut.filter((o: any) => o.months >= 3)} pageSize={15} columns={[
-            { key: "name", header: "Destinatário", render: (v: any, r: any) => (<div className="flex items-center gap-2"><span className="font-medium">{v}</span>{canEdit && <button onClick={() => openReclassify(`bank:${r.name}`, r.name, "(múltiplas)", null)} className="text-xs text-primary hover:underline">Reclassificar</button>}</div>) },
+            { key: "name", header: "Destinatário", render: (v: any, r: any) => (<div className="flex items-center gap-2"><span style={{ fontWeight: 500, color: SB.ink }}>{v}</span>{canEdit && <button onClick={() => openReclassify(`bank:${r.name}`, r.name, "(múltiplas)", null)} className="text-xs text-primary hover:underline">Reclassificar</button>}</div>) },
             { key: "count", header: "Trx", className: "text-right" },
             { key: "months", header: "Meses", className: "text-right" },
             { key: "total", header: "Total", render: (v: number) => <span className="font-mono">{fmtBRL(v)}</span>, className: "text-right" },
@@ -1499,26 +1575,37 @@ function Bank({ fBank, bankInsights, saldos, nMonths, canEdit, openReclassify }:
           ]} emptyMessage="Nenhuma recorrência" />
         </Panel>
       )}
+
       <Panel title="Transações da conta">
         <BeaUI.DataTable data={txs} searchable pageSize={25} columns={[
-          { key: "date", header: "Data", render: (v: any) => <span className="font-mono text-xs">{new Date(v).toLocaleDateString("pt-BR")}</span> },
-          { key: "type", header: "Tipo" },
-          { key: "counterparty", header: "Contraparte", render: (v: any) => v || "" },
-          { key: "category", header: "Categoria", render: (v: string, r: any) => (<div className="flex items-center gap-1"><BeaUI.Badge variant={v.startsWith("PIX recebido") ? "success" : v.startsWith("PIX enviado") ? "warning" : v.startsWith("Investimento") ? "default" : "secondary"}>{v}</BeaUI.Badge>{r.orig_category && <span className="text-primary text-xs" title="Reclassificado">●</span>}</div>) },
-          { key: "amount", header: "Valor", render: (v: number) => <span className={`font-mono ${v >= 0 ? "text-green-600" : "text-destructive"}`}>{fmtNum(v)}</span>, className: "text-right" },
-          { key: "saldo", header: "Saldo", render: (v: any) => <span className="font-mono text-muted-foreground">{v != null ? fmtNum(v) : ""}</span>, className: "text-right" },
-          ...(canEdit ? [{ key: "id", header: "", render: (_v: any, r: any) => { const key = r.counterparty ? `bank:${r.counterparty}` : `bank-type:${r.type}`; return (<button onClick={() => openReclassify(key, r.counterparty || r.type, r.category, r.orig_category)} className="text-xs px-2 py-1 rounded-full border border-border hover:border-primary hover:text-primary hover:bg-primary/5 transition-colors">Reclassificar</button>); } }] : [])
+          { key: "date", header: "Data", render: (v: any) => <span className="font-mono text-xs" style={{ color: SB.muted }}>{new Date(v).toLocaleDateString("pt-BR")}</span> },
+          { key: "type", header: "Tipo", render: (v: any) => <span style={{ color: SB.ink }}>{v}</span> },
+          { key: "counterparty", header: "Contraparte", render: (v: any) => <span style={{ color: SB.chip }}>{v || ""}</span> },
+          { key: "category", header: "Categoria", render: (v: string, r: any) => (<div className="flex items-center gap-1"><CatTag cat={v} />{r.orig_category && <span style={{ color: SB.accent, fontSize: 12 }} title="Reclassificado">●</span>}</div>) },
+          { key: "amount", header: "Valor", render: (v: number) => <span className="font-mono" style={{ color: v >= 0 ? SB.green : SB.red }}>{fmtNum(v)}</span>, className: "text-right" },
+          { key: "saldo", header: "Saldo", render: (v: any) => <span className="font-mono" style={{ color: SB.muted }}>{v != null ? fmtNum(v) : ""}</span>, className: "text-right" },
+          ...(canEdit ? [{ key: "id", header: "", render: (_v: any, r: any) => { const key = r.counterparty ? `bank:${r.counterparty}` : `bank-type:${r.type}`; return (<button onClick={() => openReclassify(key, r.counterparty || r.type, r.category, r.orig_category)} className="text-xs px-2 py-1 rounded-lg border border-border hover:border-primary hover:text-primary transition-colors">Reclassificar</button>); } }] : [])
         ]} emptyMessage="Nenhuma transação" />
       </Panel>
     </div>
   );
 }
 
+// Tag de categoria: quadradinho colorido + nome (estilo "Banco Sóbrio")
+function CatTag({ cat, idx = 0, color }: any) {
+  const c = color || catColor(cat, idx);
+  return (
+    <span style={{ display: "inline-flex", alignItems: "center", gap: 8, font: "400 13px 'IBM Plex Sans'", color: SB.ink }}>
+      <span style={{ width: 8, height: 8, borderRadius: 2, background: c, flex: "none" }} />{cat}
+    </span>
+  );
+}
+
 function PillSel({ label, value, onChange, options }: any) {
   return (
     <div className="flex items-center gap-2">
-      <span className="text-xs text-muted-foreground font-medium">{label}:</span>
-      <select value={value} onChange={e => onChange(e.target.value)} className="h-8 px-3 rounded-full border border-input bg-background text-xs text-foreground focus:outline-none focus:ring-2 focus:ring-ring">
+      <span style={{ font: "400 12px 'IBM Plex Sans'", color: SB.muted }}>{label}:</span>
+      <select value={value} onChange={e => onChange(e.target.value)} style={{ height: 34, padding: "0 12px", borderRadius: 8, border: `1px solid #d6d4ca`, background: SB.card, font: "400 12px 'IBM Plex Sans'", color: SB.ink, outline: "none" }}>
         {(Array.isArray(options)?options:[]).map((o: any) => <option key={o.value} value={o.value}>{o.label}</option>)}
       </select>
     </div>
