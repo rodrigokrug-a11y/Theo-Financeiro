@@ -359,7 +359,7 @@ function catColor(cat: string, idx: number = 0): string {
   return PALETTE[(h + idx) % PALETTE.length];
 }
 
-// CSS global do app: tema "Banco Sóbrio" + tipografia (Newsreader/IBM Plex)
+// CSS global do app: tema "Banco Sóbrio" + tipografia Inter (texto + números tabulares)
 const APP_CSS = `
 :root{
   --background:70 12% 95%; --foreground:219 43% 19%;
@@ -375,9 +375,9 @@ const APP_CSS = `
 }
 @keyframes finFadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
 .fin-fade{animation:finFadeIn .25s ease-out both}
-.fin-app{font-family:'IBM Plex Sans',system-ui,sans-serif}
-.fin-app .font-mono{font-family:'IBM Plex Mono',ui-monospace,monospace}
-.fin-serif{font-family:'Newsreader',Georgia,serif}
+.fin-app{font-family:'Inter',system-ui,-apple-system,sans-serif;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+.fin-app .font-mono{font-family:'Inter',system-ui,sans-serif;font-variant-numeric:tabular-nums;font-feature-settings:'tnum' 1}
+.fin-serif{font-family:'Inter',system-ui,sans-serif;letter-spacing:-0.011em}
 .sbgroup{display:grid;background:#fff;border:1px solid #e3e2dc;border-radius:10px;overflow:hidden}
 .sbcell{padding:20px 24px;border-right:1px solid #eceadf;border-bottom:1px solid #eceadf}
 .fin-chip:hover{background:#faf9f5;color:#1c2b46}
@@ -406,9 +406,9 @@ function StatCard({ label, value, accent = "neutral", hint }: any) {
   const hc = HINT_COLOR[accent] || HINT_COLOR.neutral;
   return (
     <div className="sbcell">
-      <div style={{ font: "500 10.5px 'IBM Plex Sans'", letterSpacing: ".07em", textTransform: "uppercase", color: SB.faint, marginBottom: 12 }}>{label}</div>
+      <div style={{ font: "500 10.5px 'Inter'", letterSpacing: ".07em", textTransform: "uppercase", color: SB.faint, marginBottom: 12 }}>{label}</div>
       <div className="font-mono" style={{ fontSize: 23, fontWeight: 500, lineHeight: 1.1, color: neg ? SB.red : SB.ink, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{value}</div>
-      {hint ? <div style={{ font: "400 12px 'IBM Plex Sans'", color: hc, marginTop: 10, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{hint}</div> : null}
+      {hint ? <div style={{ font: "400 12px 'Inter'", color: hc, marginTop: 10, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{hint}</div> : null}
     </div>
   );
 }
@@ -426,7 +426,7 @@ function Panel({ title, description, action, children }: any) {
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 16, marginBottom: 22 }}>
           <div style={{ minWidth: 0 }}>
             {title && <div className="fin-serif" style={{ fontSize: 20, fontWeight: 500, color: SB.ink, lineHeight: 1.15 }}>{title}</div>}
-            {description && <div style={{ font: "400 12px 'IBM Plex Sans'", color: SB.muted, marginTop: 3 }}>{description}</div>}
+            {description && <div style={{ font: "400 12px 'Inter'", color: SB.muted, marginTop: 3 }}>{description}</div>}
           </div>
           {action ? <div style={{ flex: "none" }}>{action}</div> : null}
         </div>
@@ -444,7 +444,7 @@ function PeriodChips({ value, onChange, options }: any) {
         const active = o.value === value;
         return (
           <button key={o.value} onClick={() => onChange(o.value)} className={active ? "" : "fin-chip"}
-            style={{ padding: "9px 16px", border: 0, borderRight: i < options.length - 1 ? `1px solid ${SB.bInner}` : "none", background: active ? SB.side : "transparent", color: active ? "#fff" : SB.chip, font: `${active ? 600 : 400} 13px 'IBM Plex Sans'`, cursor: "pointer", outline: "none" }}>
+            style={{ padding: "9px 16px", border: 0, borderRight: i < options.length - 1 ? `1px solid ${SB.bInner}` : "none", background: active ? SB.side : "transparent", color: active ? "#fff" : SB.chip, font: `${active ? 600 : 400} 13px 'Inter'`, cursor: "pointer", outline: "none" }}>
             {o.label}
           </button>
         );
@@ -480,13 +480,13 @@ function App({ db, user }: any) {
   const [dataRowId, setDataRowId] = useState<number | null>(null);
   const canEdit = user.role === "admin" || user.role === "builder";
 
-  // Carrega as fontes do design (Newsreader / IBM Plex Sans / IBM Plex Mono) uma única vez
+  // Carrega a fonte Inter (texto + números) uma única vez
   useEffect(() => {
-    const id = "fin-fonts";
+    const id = "fin-fonts-inter";
     if (document.getElementById(id)) return;
     const l = document.createElement("link");
     l.id = id; l.rel = "stylesheet";
-    l.href = "https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap";
+    l.href = "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap";
     document.head.appendChild(l);
   }, []);
 
@@ -764,7 +764,7 @@ function App({ db, user }: any) {
         const active = tab === n.value;
         return (
           <button key={n.value} onClick={() => { setTab(n.value); setMobileNav(false); }} className="fin-nav"
-            style={{ display: "flex", alignItems: "center", gap: 13, padding: "11px 12px", borderRadius: 7, border: 0, borderLeft: `2px solid ${active ? SB.accent : "transparent"}`, background: active ? "rgba(255,255,255,.09)" : "transparent", font: `${active ? 600 : 400} 13.5px 'IBM Plex Sans'`, color: active ? "#fff" : SB.navIdle, cursor: "pointer", textAlign: "left", width: "100%", outline: "none" }}>
+            style={{ display: "flex", alignItems: "center", gap: 13, padding: "11px 12px", borderRadius: 7, border: 0, borderLeft: `2px solid ${active ? SB.accent : "transparent"}`, background: active ? "rgba(255,255,255,.09)" : "transparent", font: `${active ? 600 : 400} 13.5px 'Inter'`, color: active ? "#fff" : SB.navIdle, cursor: "pointer", textAlign: "left", width: "100%", outline: "none" }}>
             <BeaUI.Icon name={n.icon} size={17} />
             <span style={{ whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{n.label}</span>
           </button>
@@ -775,12 +775,12 @@ function App({ db, user }: any) {
 
   const sidebarActions = canEdit ? (
     <div style={{ marginTop: "auto", display: "flex", flexDirection: "column", gap: 14, paddingTop: 20, borderTop: "1px solid rgba(255,255,255,.1)" }}>
-      <button onClick={() => { setShowImport(true); setMobileNav(false); }} style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 9, padding: 12, border: 0, borderRadius: 7, background: SB.accent, color: "#fff", font: "600 13px 'IBM Plex Sans'", cursor: "pointer" }}>
+      <button onClick={() => { setShowImport(true); setMobileNav(false); }} style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 9, padding: 12, border: 0, borderRadius: 7, background: SB.accent, color: "#fff", font: "600 13px 'Inter'", cursor: "pointer" }}>
         <BeaUI.Icon name="upload" size={15} /> Importar PDFs
       </button>
       <div style={{ display: "flex", gap: 20, padding: "0 8px" }}>
-        <button onClick={() => { setShowBudgets(true); setMobileNav(false); }} style={{ background: "none", border: 0, padding: 0, color: SB.navMute, font: "400 12px 'IBM Plex Sans'", cursor: "pointer" }}>Orçamentos</button>
-        <button onClick={() => { setShowRules(true); setMobileNav(false); }} style={{ background: "none", border: 0, padding: 0, color: SB.navMute, font: "400 12px 'IBM Plex Sans'", cursor: "pointer" }}>Regras</button>
+        <button onClick={() => { setShowBudgets(true); setMobileNav(false); }} style={{ background: "none", border: 0, padding: 0, color: SB.navMute, font: "400 12px 'Inter'", cursor: "pointer" }}>Orçamentos</button>
+        <button onClick={() => { setShowRules(true); setMobileNav(false); }} style={{ background: "none", border: 0, padding: 0, color: SB.navMute, font: "400 12px 'Inter'", cursor: "pointer" }}>Regras</button>
       </div>
     </div>
   ) : null;
@@ -791,10 +791,10 @@ function App({ db, user }: any) {
         <div className="fin-serif" style={{ width: 38, height: 38, borderRadius: 7, background: SB.accent, color: "#fff", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 600, fontSize: 19, flex: "none" }}>F</div>
         <div style={{ minWidth: 0 }}>
           <div className="fin-serif" style={{ fontWeight: 600, fontSize: 16, lineHeight: 1.05, color: "#fff" }}>Finanças Pessoais</div>
-          <div style={{ font: "400 11px 'IBM Plex Sans'", color: SB.navMute, marginTop: 2 }}>Painel de controle</div>
+          <div style={{ font: "400 11px 'Inter'", color: SB.navMute, marginTop: 2 }}>Painel de controle</div>
         </div>
       </div>
-      <div style={{ font: "500 10px 'IBM Plex Sans'", letterSpacing: ".14em", color: SB.sect, textTransform: "uppercase", padding: "0 12px 10px" }}>Painel</div>
+      <div style={{ font: "500 10px 'Inter'", letterSpacing: ".14em", color: SB.sect, textTransform: "uppercase", padding: "0 12px 10px" }}>Painel</div>
       <nav style={{ display: "flex", flexDirection: "column", gap: 2 }}>{navButtons}</nav>
       {sidebarActions}
     </>
@@ -833,13 +833,13 @@ function App({ db, user }: any) {
           <header style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 20, marginBottom: 24, paddingBottom: 22, borderBottom: `1px solid ${SB.border}` }}>
             <div style={{ minWidth: 0 }}>
               <div className="fin-serif" style={{ fontSize: 32, lineHeight: 1.05, fontWeight: 500, color: SB.ink }}>{currentNav.label}</div>
-              <div style={{ font: "400 14px 'IBM Plex Sans'", color: SB.muted, marginTop: 6 }}>{currentNav.sub}</div>
+              <div style={{ font: "400 14px 'Inter'", color: SB.muted, marginTop: 6 }}>{currentNav.sub}</div>
             </div>
             {hasData && (
               <div style={{ textAlign: "right", flex: "none" }} className="hidden sm:block">
-                <div style={{ font: "400 11px 'IBM Plex Sans'", letterSpacing: ".1em", color: SB.faint, textTransform: "uppercase" }}>Período analisado</div>
+                <div style={{ font: "400 11px 'Inter'", letterSpacing: ".1em", color: SB.faint, textTransform: "uppercase" }}>Período analisado</div>
                 <div className="font-mono" style={{ fontSize: 16, fontWeight: 500, color: SB.ink, marginTop: 4 }}>{rangeLabel}</div>
-                <div style={{ font: "400 12px 'IBM Plex Sans'", color: SB.faint, marginTop: 2 }}>{activeMonths.size} {activeMonths.size === 1 ? "mês" : "meses"}</div>
+                <div style={{ font: "400 12px 'Inter'", color: SB.faint, marginTop: 2 }}>{activeMonths.size} {activeMonths.size === 1 ? "mês" : "meses"}</div>
               </div>
             )}
           </header>
@@ -857,10 +857,10 @@ function App({ db, user }: any) {
                   options={[{ value: "all", label: "Tudo" }, { value: "last1", label: "Último mês" }, { value: "last3", label: "3 meses" }, { value: "last6", label: "6 meses" }, { value: "last12", label: "12 meses" }, { value: "custom", label: "Personalizado" }]} />
                 {periodPreset === "custom" ? (
                   <div className="fin-fade" style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                    <span style={{ font: "400 13px 'IBM Plex Sans'", color: SB.muted }}>De</span>
-                    <input type="month" value={periodFrom} onChange={e => setPeriodFrom(e.target.value)} style={{ height: 38, padding: "0 12px", borderRadius: 8, border: `1px solid #d6d4ca`, background: SB.card, font: "400 13px 'IBM Plex Sans'", color: SB.ink }} />
-                    <span style={{ font: "400 13px 'IBM Plex Sans'", color: SB.muted }}>até</span>
-                    <input type="month" value={periodTo} onChange={e => setPeriodTo(e.target.value)} style={{ height: 38, padding: "0 12px", borderRadius: 8, border: `1px solid #d6d4ca`, background: SB.card, font: "400 13px 'IBM Plex Sans'", color: SB.ink }} />
+                    <span style={{ font: "400 13px 'Inter'", color: SB.muted }}>De</span>
+                    <input type="month" value={periodFrom} onChange={e => setPeriodFrom(e.target.value)} style={{ height: 38, padding: "0 12px", borderRadius: 8, border: `1px solid #d6d4ca`, background: SB.card, font: "400 13px 'Inter'", color: SB.ink }} />
+                    <span style={{ font: "400 13px 'Inter'", color: SB.muted }}>até</span>
+                    <input type="month" value={periodTo} onChange={e => setPeriodTo(e.target.value)} style={{ height: 38, padding: "0 12px", borderRadius: 8, border: `1px solid #d6d4ca`, background: SB.card, font: "400 13px 'Inter'", color: SB.ink }} />
                   </div>
                 ) : (
                   <span className="sm:hidden font-mono" style={{ fontSize: 13, color: SB.ink }}>{rangeLabel}</span>
@@ -1003,7 +1003,7 @@ function Overview({ fCards, fBank, cardInsights, bankInsights, unifiedExpenses, 
               return (
                 <div key={cat}>
                   <div className="flex justify-between" style={{ marginBottom: 6 }}>
-                    <span style={{ font: "400 13px 'IBM Plex Sans'", color: SB.ink }}>{cat}</span>
+                    <span style={{ font: "400 13px 'Inter'", color: SB.ink }}>{cat}</span>
                     <span className="font-mono" style={{ fontSize: 13, color: SB.chip }}>{share.toFixed(0)}%</span>
                   </div>
                   <div style={{ height: 7, background: SB.bInner, borderRadius: 4, overflow: "hidden" }}>
@@ -1014,7 +1014,7 @@ function Overview({ fCards, fBank, cardInsights, bankInsights, unifiedExpenses, 
             })}
           </div>
           <div style={{ marginTop: 22, paddingTop: 16, borderTop: `1px solid ${SB.bInner}`, display: "flex", justifyContent: "space-between", alignItems: "baseline" }}>
-            <span style={{ font: "400 11px 'IBM Plex Sans'", letterSpacing: ".07em", color: SB.faint, textTransform: "uppercase" }}>Total de despesas</span>
+            <span style={{ font: "400 11px 'Inter'", letterSpacing: ".07em", color: SB.faint, textTransform: "uppercase" }}>Total de despesas</span>
             <span className="font-mono" style={{ fontSize: 20, fontWeight: 500, color: SB.ink }}>{fmtBRL(total)}</span>
           </div>
         </Panel>
@@ -1071,7 +1071,7 @@ function Expenses({ unifiedExpenses, nMonths, activeMonths, budgets }: any) {
                 const over = budMonthly != null && val > budMonthly;
                 return (
                   <div key={cat} className="space-y-1">
-                    <div className="flex items-center justify-between" style={{ font: "400 13px 'IBM Plex Sans'" }}>
+                    <div className="flex items-center justify-between" style={{ font: "400 13px 'Inter'" }}>
                       <span style={{ color: SB.ink, display: "flex", alignItems: "center", gap: 8 }}><span style={{ width: 8, height: 8, borderRadius: 2, background: catColor(cat, i) }} />{cat}</span>
                       <span className="font-mono" style={{ color: SB.ink }}>{fmtBRL(val)} <span style={{ color: SB.faint }}>({share.toFixed(0)}%)</span></span>
                     </div>
@@ -1079,7 +1079,7 @@ function Expenses({ unifiedExpenses, nMonths, activeMonths, budgets }: any) {
                       <div style={{ width: `${pct}%`, height: "100%", background: over ? SB.red : catColor(cat, i) }} />
                     </div>
                     {budMonthly != null && (
-                      <p style={{ font: "400 12px 'IBM Plex Sans'", color: over ? SB.red : SB.muted }}>{over ? "Acima do limite · " : "Dentro · "}{fmtBRL(val / nMonths)}/mês vs orçamento {fmtBRL(bud)}/mês</p>
+                      <p style={{ font: "400 12px 'Inter'", color: over ? SB.red : SB.muted }}>{over ? "Acima do limite · " : "Dentro · "}{fmtBRL(val / nMonths)}/mês vs orçamento {fmtBRL(bud)}/mês</p>
                     )}
                   </div>
                 );
@@ -1099,13 +1099,13 @@ function Expenses({ unifiedExpenses, nMonths, activeMonths, budgets }: any) {
           <PillSel label="Categoria" value={fcat} onChange={setFcat} options={[{ value: "all", label: "Todas" }, ...cats.map(c => ({ value: c, label: c }))]} />
           <PillSel label="Origem" value={fsrc} onChange={setFsrc} options={[{ value: "all", label: "Todas" }, { value: "cartao", label: "Cartão" }, { value: "extrato", label: "Conta" }]} />
           <PillSel label="Ordenar" value={sortBy} onChange={setSortBy} options={[{ value: "date", label: "Data" }, { value: "amount", label: "Valor" }]} />
-          <span className="ml-auto" style={{ font: "400 13px 'IBM Plex Sans'", color: SB.muted }}>Total filtrado: <strong className="font-mono" style={{ color: SB.ink }}>{fmtBRL(filteredTotal)}</strong></span>
+          <span className="ml-auto" style={{ font: "400 13px 'Inter'", color: SB.muted }}>Total filtrado: <strong className="font-mono" style={{ color: SB.ink }}>{fmtBRL(filteredTotal)}</strong></span>
         </div>
         <BeaUI.DataTable data={sorted} searchable pageSize={30} columns={[
           { key: "date", header: "Data", render: (v: any) => <span className="font-mono text-xs" style={{ color: SB.muted }}>{new Date(v).toLocaleDateString("pt-BR")}</span> },
           { key: "label", header: "Descrição", render: (v: any) => <span style={{ color: SB.ink }}>{v}</span> },
           { key: "category", header: "Categoria", render: (v: string, _r: any, i: number) => <CatTag cat={v} idx={i || 0} /> },
-          { key: "source", header: "Origem", render: (v: string) => <span style={{ font: "400 13px 'IBM Plex Sans'", color: SB.chip }}>{v === "cartao" ? "Cartão" : "Conta"}</span> },
+          { key: "source", header: "Origem", render: (v: string) => <span style={{ font: "400 13px 'Inter'", color: SB.chip }}>{v === "cartao" ? "Cartão" : "Conta"}</span> },
           { key: "amount", header: "Valor", render: (v: number) => <span className="font-mono" style={{ color: SB.ink }}>{fmtNum(v)}</span>, className: "text-right" },
         ]} emptyMessage="Nenhuma despesa" />
       </Panel>
@@ -1164,7 +1164,7 @@ function Trends({ fCards, fBank, unifiedExpenses, activeMonths }: any) {
             <div className="space-y-2">
               {(Array.isArray(deltas)?deltas:[]).map((d: any) => (
                 <div key={d.month} className="flex items-center justify-between" style={{ padding: "13px 14px", borderRadius: 8, border: `1px solid ${SB.row}`, background: "#fcfcfa" }}>
-                  <span style={{ font: "500 14px 'IBM Plex Sans'", color: SB.ink }}>{d.month}</span>
+                  <span style={{ font: "500 14px 'Inter'", color: SB.ink }}>{d.month}</span>
                   <div className="flex items-center gap-3">
                     <span className="font-mono" style={{ fontSize: 14, color: SB.ink }}>{fmtBRL(d.cur)}</span>
                     <span className="font-mono" style={{ fontSize: 13, fontWeight: 500, color: d.delta > 0 ? SB.red : SB.green }}>{d.delta > 0 ? "▲" : "▼"} {Math.abs(d.pct).toFixed(0)}%</span>
@@ -1182,7 +1182,7 @@ function Trends({ fCards, fBank, unifiedExpenses, activeMonths }: any) {
             <div className="space-y-2">
               {(Array.isArray(compare)?compare:[]).map((c: any) => (
                 <div key={c.cat} className="flex items-center justify-between" style={{ padding: "13px 14px", borderRadius: 8, border: `1px solid ${SB.row}`, background: "#fcfcfa" }}>
-                  <span style={{ font: "500 14px 'IBM Plex Sans'", color: SB.ink, display: "flex", alignItems: "center", gap: 8 }}><span style={{ width: 8, height: 8, borderRadius: 2, background: c.color }} />{c.cat}</span>
+                  <span style={{ font: "500 14px 'Inter'", color: SB.ink, display: "flex", alignItems: "center", gap: 8 }}><span style={{ width: 8, height: 8, borderRadius: 2, background: c.color }} />{c.cat}</span>
                   <div className="flex items-center gap-3" style={{ fontSize: 12 }}>
                     <span className="font-mono" style={{ color: SB.muted }}>{fmtBRL(c.fv)} → {fmtBRL(c.lv)}</span>
                     {c.fv > 0 && <span className="font-mono" style={{ fontWeight: 500, color: c.delta > 0 ? SB.red : SB.green }}>{c.delta > 0 ? "▲" : "▼"} {Math.abs(c.pct).toFixed(0)}%</span>}
@@ -1301,7 +1301,7 @@ function Insights({ fCards, fBank, unifiedExpenses, cardInsights, bankInsights, 
             <div style={{ width: 40, height: 40, borderRadius: 8, background: SB.bg, display: "flex", alignItems: "center", justifyContent: "center", flex: "none", color: ins.color }}><BeaUI.Icon name={ins.icon} size={18} /></div>
             <div style={{ minWidth: 0 }}>
               <div className="fin-serif" style={{ fontSize: 17, fontWeight: 500, color: SB.ink, marginBottom: 6 }}>{ins.title}</div>
-              <div style={{ font: "400 13.5px/1.5 'IBM Plex Sans'", color: SB.chip }}>{ins.body}</div>
+              <div style={{ font: "400 13.5px/1.5 'Inter'", color: SB.chip }}>{ins.body}</div>
             </div>
           </div>
         ))}
@@ -1352,14 +1352,14 @@ function Budgets({ unifiedExpenses, budgets, nMonths, activeMonths, canEdit, onE
           {(Array.isArray(rows)?rows:[]).map((r: any, i: number) => (
             <div key={r.cat} style={{ padding: "18px 0", borderBottom: i < rows.length - 1 ? `1px solid ${SB.row}` : "none" }}>
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: 9 }}>
-                <span style={{ font: "500 15px 'IBM Plex Sans'", color: SB.ink, display: "flex", alignItems: "center", gap: 9 }}><span style={{ width: 9, height: 9, borderRadius: 2, background: r.color }} />{r.cat}</span>
+                <span style={{ font: "500 15px 'Inter'", color: SB.ink, display: "flex", alignItems: "center", gap: 9 }}><span style={{ width: 9, height: 9, borderRadius: 2, background: r.color }} />{r.cat}</span>
                 <span className="font-mono" style={{ fontSize: 13, color: r.over ? SB.red : SB.chip }}>{fmtBRL(r.spentMonthly)} / {fmtBRL(r.bud)} <span style={{ fontWeight: 500, color: r.over ? SB.red : SB.faint }}>{r.pct.toFixed(0)}%</span></span>
               </div>
               <div style={{ height: 8, background: SB.bInner, borderRadius: 5, overflow: "hidden" }}>
                 <div style={{ width: `${Math.min(r.pct, 100)}%`, height: "100%", background: r.over ? SB.red : r.pct > 80 ? "#a8743a" : r.color }} />
               </div>
-              {r.over ? <div style={{ font: "400 12px 'IBM Plex Sans'", color: SB.red, marginTop: 7 }}>Estourou o limite em {fmtBRL(r.spentMonthly - r.bud)}/mês</div>
-                : <div style={{ font: "400 12px 'IBM Plex Sans'", color: SB.green, marginTop: 7 }}>Folga de {fmtBRL(r.bud - r.spentMonthly)}/mês</div>}
+              {r.over ? <div style={{ font: "400 12px 'Inter'", color: SB.red, marginTop: 7 }}>Estourou o limite em {fmtBRL(r.spentMonthly - r.bud)}/mês</div>
+                : <div style={{ font: "400 12px 'Inter'", color: SB.green, marginTop: 7 }}>Folga de {fmtBRL(r.bud - r.spentMonthly)}/mês</div>}
             </div>
           ))}
         </div>
@@ -1457,12 +1457,12 @@ function Cards({ fCards, cardInsights, nMonths, activeMonths, canEdit, openRecla
                 <span className="fin-serif" style={{ fontSize: 17, color: "#fff" }}>Cartão {nm}</span>
                 <BeaUI.Icon name="credit-card" size={18} className="text-white" />
               </div>
-              <div style={{ font: "400 11px 'IBM Plex Sans'", letterSpacing: ".07em", color: SB.navMute, textTransform: "uppercase", margin: "26px 0 8px" }}>Gasto no período</div>
+              <div style={{ font: "400 11px 'Inter'", letterSpacing: ".07em", color: SB.navMute, textTransform: "uppercase", margin: "26px 0 8px" }}>Gasto no período</div>
               <div className="font-mono" style={{ fontSize: 26, fontWeight: 500, color: "#fff" }}>{fmtBRL(tot)}</div>
               <div style={{ height: 6, background: "rgba(255,255,255,.12)", borderRadius: 4, overflow: "hidden", margin: "16px 0 8px" }}>
                 <div style={{ width: `${total > 0 ? Math.round((tot / total) * 100) : 0}%`, height: "100%", background: col }} />
               </div>
-              <div style={{ display: "flex", justifyContent: "space-between", font: "400 12px 'IBM Plex Sans'", color: SB.navIdle }}>
+              <div style={{ display: "flex", justifyContent: "space-between", font: "400 12px 'Inter'", color: SB.navIdle }}>
                 <span>{total > 0 ? Math.round((tot / total) * 100) : 0}% do total</span>
                 <span className="font-mono">{fmtBRL(tot / nMonths)}/mês</span>
               </div>
@@ -1472,7 +1472,7 @@ function Cards({ fCards, cardInsights, nMonths, activeMonths, canEdit, openRecla
       </section>
 
       <div style={{ display: "flex", flexWrap: "wrap", gap: 12, alignItems: "center", background: SB.card, border: `1px solid ${SB.border}`, borderRadius: 10, padding: "14px 18px" }}>
-        <span style={{ font: "500 10.5px 'IBM Plex Sans'", letterSpacing: ".07em", color: SB.faint, textTransform: "uppercase" }}>Filtros</span>
+        <span style={{ font: "500 10.5px 'Inter'", letterSpacing: ".07em", color: SB.faint, textTransform: "uppercase" }}>Filtros</span>
         <PillSel label="Cartão" value={fc} onChange={setFc} options={[{ value: "all", label: "Todos" }, ...cardsSet.map(c => ({ value: c, label: c }))]} />
         <PillSel label="Pessoa" value={fh} onChange={setFh} options={[{ value: "all", label: "Todas" }, ...holders.map(h => ({ value: h, label: h }))]} />
         <PillSel label="Categoria" value={fcat} onChange={setFcat} options={[{ value: "all", label: "Todas" }, ...categories.map(c => ({ value: c, label: c }))]} />
@@ -1595,7 +1595,7 @@ function Bank({ fBank, bankInsights, saldos, nMonths, canEdit, openReclassify }:
 function CatTag({ cat, idx = 0, color }: any) {
   const c = color || catColor(cat, idx);
   return (
-    <span style={{ display: "inline-flex", alignItems: "center", gap: 8, font: "400 13px 'IBM Plex Sans'", color: SB.ink }}>
+    <span style={{ display: "inline-flex", alignItems: "center", gap: 8, font: "400 13px 'Inter'", color: SB.ink }}>
       <span style={{ width: 8, height: 8, borderRadius: 2, background: c, flex: "none" }} />{cat}
     </span>
   );
@@ -1604,8 +1604,8 @@ function CatTag({ cat, idx = 0, color }: any) {
 function PillSel({ label, value, onChange, options }: any) {
   return (
     <div className="flex items-center gap-2">
-      <span style={{ font: "400 12px 'IBM Plex Sans'", color: SB.muted }}>{label}:</span>
-      <select value={value} onChange={e => onChange(e.target.value)} style={{ height: 34, padding: "0 12px", borderRadius: 8, border: `1px solid #d6d4ca`, background: SB.card, font: "400 12px 'IBM Plex Sans'", color: SB.ink, outline: "none" }}>
+      <span style={{ font: "400 12px 'Inter'", color: SB.muted }}>{label}:</span>
+      <select value={value} onChange={e => onChange(e.target.value)} style={{ height: 34, padding: "0 12px", borderRadius: 8, border: `1px solid #d6d4ca`, background: SB.card, font: "400 12px 'Inter'", color: SB.ink, outline: "none" }}>
         {(Array.isArray(options)?options:[]).map((o: any) => <option key={o.value} value={o.value}>{o.label}</option>)}
       </select>
     </div>
