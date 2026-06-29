@@ -378,8 +378,10 @@ const APP_CSS = `
 .fin-app{font-family:'Inter',system-ui,-apple-system,sans-serif;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
 .fin-app .font-mono{font-family:'Inter',system-ui,sans-serif;font-variant-numeric:tabular-nums;font-feature-settings:'tnum' 1}
 .fin-serif{font-family:'Inter',system-ui,sans-serif;letter-spacing:-0.011em}
-.sbgroup{display:grid;background:#fff;border:1px solid #e3e2dc;border-radius:10px;overflow:hidden}
-.sbcell{padding:20px 24px;border-right:1px solid #eceadf;border-bottom:1px solid #eceadf}
+.sbgroup{display:grid;gap:1px;background:#e6e5df;border:1px solid #e3e2dc;border-radius:10px;overflow:hidden}
+.sbcell{background:#fff;padding:20px 24px}
+.fin-grid-2{display:grid;grid-template-columns:1fr;gap:16px}
+@media(min-width:1024px){.fin-grid-2{grid-template-columns:1.55fr 1fr}}
 .fin-chip:hover{background:#faf9f5;color:#1c2b46}
 .fin-nav:hover{filter:brightness(1.14)}
 .fin-no-scrollbar::-webkit-scrollbar{display:none}
@@ -425,7 +427,7 @@ function Panel({ title, description, action, children }: any) {
       {(title || description || action) && (
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 16, marginBottom: 22 }}>
           <div style={{ minWidth: 0 }}>
-            {title && <div className="fin-serif" style={{ fontSize: 20, fontWeight: 500, color: SB.ink, lineHeight: 1.15 }}>{title}</div>}
+            {title && <div className="fin-serif" style={{ fontSize: 18, fontWeight: 600, color: SB.ink, lineHeight: 1.2 }}>{title}</div>}
             {description && <div style={{ font: "400 12px 'Inter'", color: SB.muted, marginTop: 3 }}>{description}</div>}
           </div>
           {action ? <div style={{ flex: "none" }}>{action}</div> : null}
@@ -832,7 +834,7 @@ function App({ db, user }: any) {
           {/* Cabeçalho da seção */}
           <header style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 20, marginBottom: 24, paddingBottom: 22, borderBottom: `1px solid ${SB.border}` }}>
             <div style={{ minWidth: 0 }}>
-              <div className="fin-serif" style={{ fontSize: 32, lineHeight: 1.05, fontWeight: 500, color: SB.ink }}>{currentNav.label}</div>
+              <div className="fin-serif" style={{ fontSize: 30, lineHeight: 1.1, fontWeight: 600, color: SB.ink }}>{currentNav.label}</div>
               <div style={{ font: "400 14px 'Inter'", color: SB.muted, marginTop: 6 }}>{currentNav.sub}</div>
             </div>
             {hasData && (
@@ -992,7 +994,7 @@ function Overview({ fCards, fBank, cardInsights, bankInsights, unifiedExpenses, 
         <StatCard label="Orçamento definido" value={totalBudget > 0 ? fmtBRL(totalBudget) : "—"} accent={totalBudget > 0 && (total / nMonths) > totalBudget ? "destructive" : "success"} hint={totalBudget > 0 ? `Realizado ${fmtBRL(total / nMonths)}/mês` : "Defina no Orçamento"} />
       </StatGroup>
 
-      <div className="grid grid-cols-1 lg:grid-cols-[1.55fr_1fr] gap-4">
+      <div className="fin-grid-2">
         <Panel title="Fluxo mensal" description="Renda × despesas no período">
           <div className="h-72"><BeaUI.BarChart data={{ labels: monthsLabels, datasets: [{ label: "Renda", data: rendaPerMonth, backgroundColor: SB.green }, { label: "Cartões", data: (Array.isArray(cardPerMonth)?cardPerMonth:[]).map(v => -v), backgroundColor: SB.side }, { label: "Outras saídas", data: (Array.isArray(bankExpPerMonth)?bankExpPerMonth:[]).map(v => -v), backgroundColor: SB.red }] }} /></div>
         </Panel>
@@ -1300,7 +1302,7 @@ function Insights({ fCards, fBank, unifiedExpenses, cardInsights, bankInsights, 
           <div key={i} style={{ background: SB.card, border: `1px solid ${SB.border}`, borderRadius: 10, padding: "22px 24px", display: "flex", gap: 16 }}>
             <div style={{ width: 40, height: 40, borderRadius: 8, background: SB.bg, display: "flex", alignItems: "center", justifyContent: "center", flex: "none", color: ins.color }}><BeaUI.Icon name={ins.icon} size={18} /></div>
             <div style={{ minWidth: 0 }}>
-              <div className="fin-serif" style={{ fontSize: 17, fontWeight: 500, color: SB.ink, marginBottom: 6 }}>{ins.title}</div>
+              <div className="fin-serif" style={{ fontSize: 16, fontWeight: 600, color: SB.ink, marginBottom: 6 }}>{ins.title}</div>
               <div style={{ font: "400 13.5px/1.5 'Inter'", color: SB.chip }}>{ins.body}</div>
             </div>
           </div>
@@ -1454,7 +1456,7 @@ function Cards({ fCards, cardInsights, nMonths, activeMonths, canEdit, openRecla
             <div key={nm} style={{ flex: 1, background: "linear-gradient(135deg,#243652 0%,#1c2b46 100%)", borderRadius: 12, padding: "24px 26px", color: "#fff", position: "relative", overflow: "hidden" }}>
               <div style={{ position: "absolute", right: -30, top: -30, width: 120, height: 120, borderRadius: "50%", background: "rgba(255,255,255,.05)" }} />
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                <span className="fin-serif" style={{ fontSize: 17, color: "#fff" }}>Cartão {nm}</span>
+                <span className="fin-serif" style={{ fontSize: 16, fontWeight: 600, color: "#fff" }}>Cartão {nm}</span>
                 <BeaUI.Icon name="credit-card" size={18} className="text-white" />
               </div>
               <div style={{ font: "400 11px 'Inter'", letterSpacing: ".07em", color: SB.navMute, textTransform: "uppercase", margin: "26px 0 8px" }}>Gasto no período</div>
